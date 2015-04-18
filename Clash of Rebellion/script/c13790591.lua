@@ -56,7 +56,7 @@ function c13790591.atkup(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetValue(a:GetDefence()*2)
 		a:RegisterEffect(e1)
 	else
-		e1:SetValue(da:GetDefence()*2)
+		e1:SetValue(a:GetDefence()*2)
 		d:RegisterEffect(e1)
 	end
 end

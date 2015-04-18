@@ -1,4 +1,4 @@
---The Winged Dragon of Ra – Sphere Mode (temporary)
+--The Winged Dragon of Ra – Sphere Mode
 function c13790581.initial_effect(c)
 	--summon with 3 tribute
 	local e1=Effect.CreateEffect(c)
