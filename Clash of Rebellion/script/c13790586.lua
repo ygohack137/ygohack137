@@ -9,7 +9,7 @@ function c13790586.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c13790586.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCurrentPhase()==PHASE_BATTLE and not Duel.CheckPhaseActivity()
+	return Duel.GetCurrentPhase()==PHASE_BATTLE
 end
 function c13790586.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetChainLimit(aux.FALSE)

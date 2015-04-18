@@ -36,7 +36,7 @@ function c13790583.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local seq=e:GetHandler():GetSequence()
 	local tc=Duel.GetFieldCard(tp,LOCATION_SZONE,13-seq)
 	if not tc then return end
-	if chk==0 then return tc and tc:IsSetCard(0x98) and Duel.IsExistingTarget(c13790583.filter,tp,LOCATION_EXTRA,0,1,nil) end
+	if chk==0 then return tc and tc:IsSetCard(0x98) and Duel.IsExistingTarget(c13790583.pfilter,tp,LOCATION_EXTRA,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,e:GetHandler(),1,0,0)
 end
 function c13790583.desop(e,tp,eg,ep,ev,re,r,rp)
@@ -47,7 +47,6 @@ function c13790583.desop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
-
 
 function c13790583.filter(c)
 	return c:IsSetCard(0x99) or (c:IsType(TYPE_PENDULUM) and c:IsSetCard(0x98)) and c:IsAbleToHand()

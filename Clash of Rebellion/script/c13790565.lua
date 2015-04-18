@@ -25,7 +25,7 @@ function c13790565.destroyfilter(c)
 	return c:GetAttack()>=1500 and c:IsDestructable()
 end
 function c13790565.filter(c)
-	return (c:IsOnField() and c:IsFacedown()) or (c:IsLocation(LOCATION_HAND) and not c:IsPublic())
+	return c:IsOnField() or c:IsLocation(LOCATION_HAND)
 end
 function c13790565.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13790565.filter,tp,0,LOCATION_HAND+LOCATION_MZONE,1,nil) end

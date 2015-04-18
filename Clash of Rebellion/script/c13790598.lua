@@ -46,6 +46,7 @@ function c13790598.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,e:GetHandler(),1,0,0)
 end
 function c13790598.desop(e,tp,eg,ep,ev,re,r,rp)
+	local seq=e:GetHandler():GetSequence()
 	local tc=Duel.GetFieldCard(tp,LOCATION_SZONE,13-seq)
 	if Duel.Destroy(tc,REASON_EFFECT)~=0 then
 		Duel.BreakEffect()
