@@ -1,16 +1,5 @@
 --The Winged Dragon of Ra – Sphere Mode
 function c13790581.initial_effect(c)
-	--summon with 3 tribute
-	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(82012319,2))
-	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
-	e1:SetType(EFFECT_TYPE_IGNITION)
-	e1:SetRange(LOCATION_HAND)
-	e1:SetCondition(c13790581.sum2con)
-	e1:SetCost(c13790581.sum2cost)
-	e1:SetTarget(c13790581.sum2tg)
-	e1:SetOperation(c13790581.sum2op)
-	c:RegisterEffect(e1)
 	local e1=Effect.CreateEffect(c)
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e1:SetType(EFFECT_TYPE_SINGLE)
@@ -65,58 +54,33 @@ function c13790581.initial_effect(c)
 	e8:SetOperation(c13790581.regop)
 	c:RegisterEffect(e8)
 end
-function c13790581.ttcon(e,c)
+function c13790581.ttcon(e,c,tp)
 	if c==nil then return true end
-	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>-3 and Duel.GetTributeCount(c)>=3
+	return Duel.CheckReleaseGroup(tp,nil,3,nil) or Duel.CheckReleaseGroup(1-tp,nil,3,nil)
 end
 function c13790581.ttop(e,tp,eg,ep,ev,re,r,rp,c)
-	if c:GetControler()==tp then
-		local g=Duel.SelectTribute(tp,c,3,3)
-		c:SetMaterial(g)
-		Duel.Release(g,REASON_SUMMON+REASON_MATERIAL)
-		end
-	
-	if c:GetControler()==1-tp then		
-	local g=Duel.GetMatchingGroup(Card.IsReleasable,tp,0,MZONE,nil)
-		Duel.Hint(HINT_SELECTMSG,e:GetHandlerPlayer(),HINTMSG_RELEASE)
-		local sg=g:Select(tp,3,3,nil)
+	local controler=0
+	if Duel.CheckReleaseGroup(tp,nil,3,nil) and Duel.CheckReleaseGroup(1-tp,nil,3,nil) and 
+	Duel.SelectYesNo(tp,aux.Stringid(13790581,0)) then control=2 else control=1 end
+		
+	if not Duel.CheckReleaseGroup(tp,nil,3,nil) and Duel.CheckReleaseGroup(1-tp,nil,3,nil) or control==2 then
+		local sg=Duel.SelectMatchingCard(tp,Card.IsReleasable,tp,0,LOCATION_MZONE,3,3,nil,e,tp,nil)
 		c:SetMaterial(sg)
-		Duel.Release(sg,REASON_SUMMON+REASON_MATERIAL)
+		if Duel.Release(sg,REASON_SUMMON+REASON_MATERIAL) then return false end
+	end
+	
+	if Duel.CheckReleaseGroup(tp,nil,3,nil) and not Duel.CheckReleaseGroup(1-tp,nil,3,nil) or control==1 then
+			local g=Duel.SelectTribute(tp,c,3,3)
+			c:SetMaterial(g)
+			Duel.Release(g,REASON_SUMMON+REASON_MATERIAL)
+			Duel.RegisterFlagEffect(tp,51282878,RESET_PHASE+PHASE_END,0,1)
 	end
 end
+
 function c13790581.setcon(e,c)
 	if not c then return true end
 	return false
 end
-
-function c13790581.sum2cost(e,c,tp)
-	return Duel.GetActivityCount(tp,ACTIVITY_NORMALSUMMON)==0
-end
-function c13790581.sum2con(e,tp)
-	return Duel.GetLocationCount(tp,0,LOCATION_MZONE)>-3
-end
-function c13790581.sum2tg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
-	Duel.SetChainLimit(aux.FALSE)
-end
-function c13790581.sum2op(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	Duel.SendtoHand(c,1-tp,REASON_EFFECT)
-	Duel.ShuffleHand(tp)
-	Duel.Summon(1-tp,c,true,nil)
-	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_FIELD)
-	e1:SetCode(EFFECT_CANNOT_SUMMON)
-	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e1:SetReset(RESET_PHASE+RESET_END)
-	e1:SetTargetRange(1,1)
-	Duel.RegisterEffect(e1,tp)
-	local e2=e1:Clone()
-	e2:SetCode(EFFECT_CANNOT_MSET)
-	Duel.RegisterEffect(e2,tp)
-end
-
-
 function c13790581.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsReleasable() end
 	Duel.Release(e:GetHandler(),REASON_COST)
@@ -150,9 +114,13 @@ function c13790581.spop(e,tp,eg,ep,ev,re,r,rp)
 	tc:RegisterEffect(e2)
 	Duel.SpecialSummon(tc,0,tp,tp,true,true,POS_FACEUP)
 end
-
 function c13790581.regop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
+		if e:GetHandler():GetLocation()==LOCATION_HAND then
+		Duel.SpecialSummon(e:GetHandler(),0,tp,1-tp,true,false,POS_FACEUP_ATTACK) end
+	if Duel.GetFlagEffect(tp,51282878)==0 then
+	Duel.GetControl(c,1-tp,PHASE_END,2)
+	end
 	e:GetHandler():RegisterFlagEffect(13790581,RESET_EVENT+0x1ec0000+RESET_PHASE+PHASE_END,0,1)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
@@ -177,4 +145,3 @@ end
 function c13790581.ctval(e,c)
 	return e:GetHandlerPlayer()
 end
-
