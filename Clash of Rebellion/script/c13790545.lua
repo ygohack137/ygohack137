@@ -46,8 +46,8 @@ function c13790545.rmop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Remove(g1,POS_FACEDOWN,REASON_EFFECT)
 end
 
-function c13790545.dfilter(c)
-	return c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsType(TYPE_TOON)
+function c13790545.dfilter(c,tp)
+	return c:IsLocation(LOCATION_MZONE) and c:IsFaceup() and c:IsType(TYPE_TOON) and c:IsControler(tp)
 end
 function c13790545.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
@@ -57,8 +57,8 @@ function c13790545.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 	return Duel.SelectYesNo(tp,aux.Stringid(13790545,0))
 end
-function c13790545.value(e,c)
-	return c:IsFaceup() and c:GetLocation()==LOCATION_MZONE and c:IsType(TYPE_TOON)
+function c13790545.value(e,c,tp)
+	return c:IsFaceup() and c:GetLocation()==LOCATION_MZONE and c:IsType(TYPE_TOON) and c:IsControler(tp)
 end
 function c13790545.desop(e,tp,eg,ep,ev,re,r,rp)
 	local count=e:GetLabel()
@@ -66,7 +66,6 @@ function c13790545.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.DisableShuffleCheck()
 	Duel.Remove(g1,POS_FACEDOWN,REASON_EFFECT)
 end
-
 
 function c13790545.tgtg(e,c)
 	return c:IsType(TYPE_TOON)

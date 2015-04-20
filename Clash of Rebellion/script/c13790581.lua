@@ -119,7 +119,7 @@ function c13790581.regop(e,tp,eg,ep,ev,re,r,rp)
 		if e:GetHandler():GetLocation()==LOCATION_HAND then
 		Duel.SpecialSummon(e:GetHandler(),0,tp,1-tp,true,false,POS_FACEUP_ATTACK) end
 	if Duel.GetFlagEffect(tp,51282878)==0 then
-	Duel.GetControl(c,1-tp,PHASE_END,2)
+	Duel.GetControl(c,1-tp)
 	end
 	e:GetHandler():RegisterFlagEffect(13790581,RESET_EVENT+0x1ec0000+RESET_PHASE+PHASE_END,0,1)
 	local e1=Effect.CreateEffect(c)
@@ -132,7 +132,7 @@ function c13790581.regop(e,tp,eg,ep,ev,re,r,rp)
 	c:RegisterEffect(e1)
 end
 function c13790581.controlcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetFlagEffect(13790581)==0
+	return e:GetHandler():GetFlagEffect(13790581)==0 and not e:GetHandler():IsDisabled()
 end
 function c13790581.controlop2(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
