@@ -8,7 +8,6 @@ function c13790540.initial_effect(c)
 	--LP Up 1
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(1353770,0))
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetType(EFFECT_TYPE_IGNITION)
 	e1:SetCountLimit(1)
 	e1:SetRange(LOCATION_FZONE)

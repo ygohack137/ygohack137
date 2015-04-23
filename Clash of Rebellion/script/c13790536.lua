@@ -1,5 +1,4 @@
 --Destruction Magician
---相克の魔術師
 function c13790536.initial_effect(c)
 	--pendulum summon
 	aux.AddPendulumProcedure(c)
