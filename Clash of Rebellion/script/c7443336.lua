@@ -8,11 +8,9 @@ function c7443336.initial_effect(c)
 	e1:SetTarget(c7443336.target)
 	e1:SetOperation(c7443336.activate)
 	c:RegisterEffect(e1)
-
 end
 function c7443336.descon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnPlayer()==tp
-		and Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD+LOCATION_HAND,0)<Duel.GetFieldGroupCount(tp,0,LOCATION_ONFIELD)
+	return Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD+LOCATION_HAND,0)<Duel.GetFieldGroupCount(tp,0,LOCATION_ONFIELD)
 end
 function c7443336.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local draw=Duel.GetFieldGroupCount(tp,0,LOCATION_ONFIELD)-Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD+LOCATION_HAND,0)
