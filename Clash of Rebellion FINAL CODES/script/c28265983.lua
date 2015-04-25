@@ -61,14 +61,13 @@ function c28265983.operation2(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 		local g1=Duel.SelectMatchingCard(tp,c28265983.filter,tp,0,LOCATION_MZONE,1,1,nil,val)
 		local sc=g1:GetFirst()
-		if sc then
+		if sc and Duel.Destroy(g1,REASON_EFFECT) then
 			val=val-sc:GetAttack()
 			while  Duel.IsExistingMatchingCard(c28265983.filter,tp,0,LOCATION_MZONE,1,sc,val) and Duel.SelectYesNo(tp,aux.Stringid(28265983,0)) do
 				Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 				local g2=Duel.SelectMatchingCard(tp,c28265983.filter,tp,0,LOCATION_MZONE,1,1,g1:GetFirst(),val)
+				Duel.Destroy(g2,REASON_EFFECT)
 				val=val-g2:GetFirst():GetAttack()
-				g1:Merge(g2)
 			end
-			Duel.Destroy(g1,REASON_EFFECT)
 	end
 end

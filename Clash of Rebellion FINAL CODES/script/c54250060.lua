@@ -46,7 +46,7 @@ function c54250060.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.DiscardHand(tp,c54250060.costfilter,1,1,REASON_COST+REASON_DISCARD)
 end
 function c54250060.filter(c,e,tp)
-	return c:IsCode(29687169) or c:IsCode(56681873) or c:IsCode(82176812) or c:IsCode(93298460) or c:IsCode(92870717)
+	return c:IsCode(29687169) or c:IsCode(56681873) or c:IsCode(82176812) or c:IsCode(93298460) or c:IsCode(92870717) or c:IsCode(65472618)
 	 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c54250060.sptg(e,tp,eg,ep,ev,re,r,rp,chk)

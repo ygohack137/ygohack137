@@ -10,8 +10,7 @@ end
 function c30922149.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,1-tp,567)
 	local lv=Duel.AnnounceNumber(1-tp,1,2,3)
-	if lp=Duel.Draw(1-tp,lv,REASON_EFFECT)~=0 then
+	local lp=Duel.Draw(1-tp,lv,REASON_EFFECT)
 		Duel.Recover(tp,lp*2000,REASON_EFFECT)
-	end
 end
 
