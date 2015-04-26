@@ -29,8 +29,7 @@ function c13716001.initial_effect(c)
 	e5:SetCode(EFFECT_CANNOT_BE_EFFECT_TARGET)
 	e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e5:SetRange(LOCATION_MZONE)
-	e5:SetCondition(c13716001.tgcon)
-	e5:SetValue(1)
+	e5:SetValue(c13716001.tgval)
 	c:RegisterEffect(e5)
 	--special summon
 	local e6=Effect.CreateEffect(c)
@@ -81,8 +80,8 @@ function c13716001.setcon(e,c)
 	if not c then return true end
 	return false
 end
-function c13716001.tgcon(e)
-	return Duel.GetTurnPlayer()~=e:GetHandlerPlayer()
+function c13716001.tgval(e,re,rp)
+	return rp~=e:GetOwnerPlayer()
 end
 function c13716001.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsReleasable() end
