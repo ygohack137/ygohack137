@@ -36,7 +36,7 @@ function c92266279.target0(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	if Duel.IsExistingMatchingCard(c92266279.filter,tp,LOCATION_DECK,0,1,nil) and Duel.CheckLPCost(tp,1000)
 	and Duel.GetFlagEffect(tp,92266279)==0 and Duel.SelectYesNo(tp,aux.Stringid(92266279,0)) then e:SetLabel(0) end	
-	if (lp1<lp2) and Duel.GetFlagEffect(tp,92266280)==0 and Duel.SelectYesNo(tp,aux.Stringid(53670497,1)) then e:SetLabel(1) end
+	if (lp1<lp2) and Duel.GetFlagEffect(tp,92266280)==0 and Duel.SelectYesNo(tp,aux.Stringid(92266279,1)) then e:SetLabel(1) end
 	if e:GetLabel()==0 then Duel.RegisterFlagEffect(tp,92266279,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1) end
 	if e:GetLabel()==1 then Duel.RegisterFlagEffect(tp,92266280,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1) end
 end

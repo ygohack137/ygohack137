@@ -46,8 +46,7 @@ function c54250060.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.DiscardHand(tp,c54250060.costfilter,1,1,REASON_COST+REASON_DISCARD)
 end
 function c54250060.filter(c,e,tp)
-	return c:IsCode(29687169) or c:IsCode(56681873) or c:IsCode(82176812) or c:IsCode(93298460) or c:IsCode(92870717) or c:IsCode(65472618)
-	 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0xb30) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c54250060.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
@@ -74,7 +73,7 @@ function c54250060.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
 end
 function c54250060.afilter(c)
-	return c:IsCode(8865322) or c:IsCode(56804361) and c:IsAbleToHand()
+	return c:IsCode(28865322) or c:IsCode(56804361) and c:IsAbleToHand()
 end
 function c54250060.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c54250060.afilter,tp,LOCATION_DECK,0,1,nil) end
