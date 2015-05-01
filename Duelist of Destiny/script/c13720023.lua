@@ -51,14 +51,15 @@ function c13720023.dfilter(c,tp)
 end
 function c13720023.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
-		local count=eg:FilterCount(c13720023.dfilter,nil)
+		local count=eg:FilterCount(c13720023.dfilter,nil,tp)
 		e:SetLabel(count)
-		return count>0
+		return count>0 and Duel.GetDecktopGroup(tp,count):IsExists(Card.IsAbleToRemove,count,nil)
 	end
 	return Duel.SelectYesNo(tp,aux.Stringid(13720023,0))
 end
 function c13720023.value(e,c,tp)
-	return c:IsFaceup() and c:GetLocation()==LOCATION_MZONE and c:IsType(TYPE_TOON) and c:IsControler(tp)
+	return c:IsFaceup() and c:IsLocation(LOCATION_ONFIELD)
+		and c:IsType(TYPE_TOON) and c:IsControler(e:GetHandlerPlayer()) and c:IsReason(REASON_BATTLE+REASON_EFFECT)
 end
 function c13720023.desop(e,tp,eg,ep,ev,re,r,rp)
 	local count=e:GetLabel()

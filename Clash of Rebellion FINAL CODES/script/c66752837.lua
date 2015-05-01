@@ -1,4 +1,5 @@
 --Protector of the Shrine
+-- FIXED MAYBE?
 function c66752837.initial_effect(c)
 	--double tribute
 	local e1=Effect.CreateEffect(c)
@@ -43,7 +44,7 @@ function c66752837.spsop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsRelateToEffect(e) then
 		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
-		if g:IsExists(Card.IsType,1,nil,TYPE_NORMAL) and Duel.SelectYesNo(tp,aux.Stringid(85489096,0)) then
+		if eg:IsExists(Card.IsType,1,nil,TYPE_NORMAL) and Duel.SelectYesNo(tp,aux.Stringid(85489096,0)) then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 			local g=Duel.SelectMatchingCard(tp,c66752837.thfilter,tp,LOCATION_GRAVE,0,1,1,nil)
 			if g:GetCount()>0 then
