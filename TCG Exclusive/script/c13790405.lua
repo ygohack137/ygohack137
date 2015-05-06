@@ -25,7 +25,7 @@ function c13790405.initial_effect(c)
 	c:RegisterEffect(e3)
 	local e4=Effect.CreateEffect(c)
 	e4:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
-	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e4:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_DAMAGE_STEP)
 	e4:SetCode(EVENT_TO_GRAVE)
 	e4:SetCondition(c13790405.thcon)
@@ -49,9 +49,10 @@ function c13790405.operation(e,tp,eg,ep,ev,re,r,rp)
 end
 function c13790405.atkup(e,tp,eg,ep,ev,re,r,rp)
 	local eqc=e:GetHandler():GetEquipTarget()
-	if Duel.GetAttackTarget()==nil then return end
+	if Duel.GetAttackTarget()==nil or eqc:IsControler(1-tp) then return end
 	local a=Duel.GetAttacker()
 	local d=Duel.GetAttackTarget()
+	if a~=eqc and d~=eqc then return end
 	local bt=eqc:GetBattleTarget()
 	if bt:GetAttack()>bt:GetDefence() then val=bt:GetAttack() else val=bt:GetDefence() end
 	if d==eqc or a==eqc then
