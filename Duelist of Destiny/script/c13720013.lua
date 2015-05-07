@@ -10,13 +10,17 @@ function c13720013.initial_effect(c)
 	e1:SetOperation(c13720013.activate)
 	c:RegisterEffect(e1)
 end
-c13720013.list={[RACE_DRAGON]=13720101}
+c13720013.list={[RACE_DRAGON]=13720101,[RACE_SPELLCASTER]=13720009,[RACE_WARRIOR]=13720011}
 function c13720013.filter(c,e,tp)
     local race=c:GetRace()
 	local tcode=c13720013.list[race]
 	return tcode and Duel.IsExistingMatchingCard(c13720013.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,tcode)
 end
+function c13720013.wfilter(c,e,tp,tcode)
+    return c:IsCode(13720010) or c:IsCode(13720011)
+end
 function c13720013.spfilter(c,e,tp,tcode)
+	if tcode==13720011 then return c:IsCode(13720010) or c:IsCode(13720011) and c:IsCanBeSpecialSummoned(e,0,tp,true,true) end
     return c:IsCode(tcode) and c:IsCanBeSpecialSummoned(e,0,tp,true,true)
 end
 function c13720013.target(e,tp,eg,ep,ev,re,r,rp,chk)
