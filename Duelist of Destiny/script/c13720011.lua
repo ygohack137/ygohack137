@@ -61,7 +61,8 @@ function c13720011.eqlimit(e,c)
 	return c==e:GetLabelObject()
 end
 function c13720011.discon(e,tp,eg,ep,ev,re,r,rp)
-	return (re:IsHasType(EFFECT_TYPE_ACTIVATE) or re:IsActiveType(TYPE_MONSTER))
+	local ph=Duel.GetCurrentPhase()
+	return ph>=0x08 and ph<=0x20 and (re:IsHasType(EFFECT_TYPE_ACTIVATE) or re:IsActiveType(TYPE_MONSTER))
 		and re:GetController()~=tp
 end
 function c13720011.discost(e,tp,eg,ep,ev,re,r,rp,chk)
