@@ -25,7 +25,7 @@ function c13720027.condition(e,tp,eg,ep,ev,re,r,rp)
 end
 function c13720027.filter(c,e,tp)
 	return (c:IsType(TYPE_MONSTER) and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false))
-		or	(c:IsType(TYPE_SPELL+TYPE_TRAP) and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and c:IsSSetable())
+		or	(c:IsType(TYPE_SPELL+TYPE_TRAP) and Duel.GetLocationCount(tp,LOCATION_SZONE)>0 and c:IsSSetable()) 
 end
 function c13720027.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and c13720027.filter(chkc,e,tp) end

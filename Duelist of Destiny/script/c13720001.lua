@@ -110,7 +110,7 @@ function c13720001.lkcondition(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function c13720001.spfilter(c,e,tp)
-	return c:IsSetCard(0xa0) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
+	return c:IsSetCard(0xa0) and c:IsCanBeSpecialSummoned(e,0,tp,true,false) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
 function c13720001.lktarget(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>1

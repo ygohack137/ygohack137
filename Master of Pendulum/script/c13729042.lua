@@ -50,7 +50,7 @@ function c13729042.thcon(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function c13729042.thfilter(c,e,tp)
-	return c:IsSetCard(0x99) and c:GetCode()~=13729042 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x99) and c:GetCode()~=13729042 and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
 function c13729042.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and c13729042.thfilter(chkc,e,tp) end
