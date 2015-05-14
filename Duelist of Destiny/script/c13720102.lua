@@ -23,7 +23,7 @@ function c13720102.filter(c,e,tp)
 	return c:IsFaceup() and lv>0 and Duel.IsExistingMatchingCard(c13720102.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp,lv)
 end
 function c13720102.spfilter(c,e,tp,lv)
-	return c:GetLevel()==lv and c:IsType(TYPE_TOON) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
+	return c:GetLevel()<=lv and c:IsType(TYPE_TOON) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)
 end
 function c13720102.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
