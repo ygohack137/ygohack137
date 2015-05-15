@@ -19,15 +19,15 @@ function c13702001.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c13702001.cfilter(c,tp)
-	return (c:IsReason(REASON_DESTROY) and c:IsReason(REASON_EFFECT)) or (c:IsReason(REASON_DESTROY) and c:IsReason(REASON_BATTLE) and Duel.GetTurnPlayer()~=tp)
-	 and c:IsPreviousLocation(LOCATION_MZONE) and c:GetPreviousControler()==tp and c:IsPreviousPosition(POS_FACEUP)
+	return (c:IsReason(REASON_DESTROY) and c:IsReason(REASON_EFFECT) or (c:IsReason(REASON_DESTROY) and c:IsReason(REASON_BATTLE)) and Duel.GetTurnPlayer()~=tp)
+	 and c:IsPreviousLocation(LOCATION_MZONE) and c:GetPreviousControler()==tp and c:IsPreviousPosition(POS_FACEUP) and c:IsLevelBelow(7)
 		and c:IsSetCard(0x3b)
 end
 function c13702001.condition(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c13702001.cfilter,1,nil,tp) and  not e:GetHandler():IsStatus(STATUS_CHAINING)
 end
 function c13702001.spfilter(c,e,tp)
-	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsControler(tp) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsLevelBelow(7) and c:IsSetCard(0x3b) and c:IsControler(tp) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c13702001.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then

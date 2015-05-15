@@ -36,9 +36,11 @@ end
 function c13720102.operation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	local tc=Duel.GetFirstTarget()
+	local lv=tc:GetLevel()
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
+	if tc:IsType(TYPE_XYZ) then lv=tc:GetRank() end
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local g=Duel.SelectMatchingCard(tp,c13720102.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp,tc:GetLevel())
+		local g=Duel.SelectMatchingCard(tp,c13720102.spfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,1,nil,e,tp,lv)
 		if g:GetCount()>0 then
 			Duel.SpecialSummon(g,0,tp,tp,true,false,POS_FACEUP)
 		end
