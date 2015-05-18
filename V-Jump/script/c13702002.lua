@@ -49,11 +49,11 @@ function c13702002.adop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c13702002.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,800) end
-	Duel.PayLPCost(tp,800)
+	if chk==0 then return Duel.CheckLPCost(tp,500) end
+	Duel.PayLPCost(tp,500)
 end
 function c13702002.filter(c)
-	return c:IsFacedown() and c:IsDestructable()
+	return c:IsAbleToHand()
 end
 function c13702002.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_SZONE) and chkc:IsControler(1-tp) and c13702002.filter(chkc) end
@@ -64,7 +64,7 @@ function c13702002.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c13702002.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsFacedown() and tc:IsRelateToEffect(e) then
-		Duel.Destroy(tc,REASON_EFFECT)
+	if tc:IsRelateToEffect(e) then
+		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 	end
 end

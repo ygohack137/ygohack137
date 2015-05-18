@@ -22,58 +22,46 @@ function c13702003.initial_effect(c)
 	e2:SetOperation(c13702003.operation)
 	c:RegisterEffect(e2)
 	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_FIELD)
-	e3:SetCode(13702003)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetTargetRange(LOCATION_ONFIELD,0)
-	e3:SetTarget(c13702003.ptg)
+	e3:SetDescription(aux.Stringid(92826944,0))
+	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e3:SetType(EFFECT_TYPE_IGNITION)
+	e3:SetRange(LOCATION_GRAVE)
+	e3:SetCost(c13702003.spcost)
+	e3:SetTarget(c13702003.sptarget)
+	e3:SetOperation(c13702003.spoperation)
 	c:RegisterEffect(e3)
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(92826944,0))
-	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e4:SetType(EFFECT_TYPE_IGNITION)
-	e4:SetRange(LOCATION_GRAVE)
-	e4:SetCost(c13702003.spcost)
-	e4:SetTarget(c13702003.sptarget)
-	e4:SetOperation(c13702003.spoperation)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e4:SetCode(EFFECT_DESTROY_REPLACE)
+	e4:SetRange(LOCATION_MZONE)
+	e4:SetTarget(c13702003.reptg)
+	e4:SetValue(c13702003.repval)
 	c:RegisterEffect(e4)
-	if not c13702003.global_check then
-		c13702003.global_check=true
-		local ex=Effect.CreateEffect(c)
-		ex:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		ex:SetCode(EVENT_ADJUST)
-		ex:SetOperation(c13702003.regop)
-		Duel.RegisterEffect(ex,0)
-	end
+	local g=Group.CreateGroup()
+	g:KeepAlive()
+	e4:SetLabelObject(g)
 end
-function c13702003.ptg(e,c)
-	return c:IsControler(tp)
+function c13702003.repfilter(c,tp)
+	return c:IsControler(tp) and c:IsReason(REASON_BATTLE+REASON_EFFECT) and c:GetFlagEffect(13702003)==0
 end
-function c13702003.regfilter(c)
-	return c:IsControler(tp) and c:GetFlagEffect(13702003)==0
-end
-function c13702003.regop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetFieldGroup(0,LOCATION_ONFIELD,LOCATION_ONFIELD):Filter(c13702003.regfilter,nil)
-	if g:GetCount()==0 then return end
+function c13702003.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return eg:IsExists(c13702003.repfilter,1,nil,tp) end
+	local g=eg:Filter(c13702003.repfilter,nil,tp)
 	local tc=g:GetFirst()
 	while tc do
-		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetType(EFFECT_TYPE_SINGLE)
-		e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-		e1:SetRange(LOCATION_ONFIELD)
-		e1:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-		e1:SetCountLimit(1)
-		e1:SetValue(c13702003.valcon)
-		tc:RegisterEffect(e1)
-		tc:RegisterFlagEffect(13702003,0,0,1)
+		tc:RegisterFlagEffect(13702003,RESET_EVENT+0x1fc0000+RESET_PHASE+RESET_END,EFFECT_FLAG_CLIENT_HINT,1,0,aux.Stringid(13702003,0))
 		tc=g:GetNext()
 	end
-	Duel.Readjust()
+	e:GetLabelObject():Clear()
+	e:GetLabelObject():Merge(g)
+	return true
 end
-function c13702003.valcon(e,re,r,rp)
-	return e:GetHandler():IsHasEffect(13702003) and bit.band(r,REASON_BATTLE+REASON_EFFECT)~=0
+function c13702003.repval(e,c)
+	local g=e:GetLabelObject()
+	return g:IsContains(c)
 end
+
 
 function c13702003.condition(e,tp,eg,ep,ev,re,r,rp,chk)
 	local loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
@@ -108,7 +96,7 @@ end
 function c13702003.spoperation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRace(RACE_ZOMBIE) and tc:IsRelateToEffect(e) then
+	if tc:IsRelateToEffect(e) then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 end
