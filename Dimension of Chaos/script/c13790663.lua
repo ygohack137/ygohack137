@@ -44,10 +44,10 @@ end
 function c13790663.activate(e,tp,eg,ep,ev,re,r,rp)
 	local chkf=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and PLAYER_NONE or tp
 	local mg1=Duel.GetMatchingGroup(c13790663.filter1,tp,LOCATION_HAND+LOCATION_MZONE,0,nil,e)
-	if Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)>1 and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 then
+		if Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)>1 and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 then
 			local sg=Duel.GetMatchingGroup(c13790663.filter0,tp,LOCATION_EXTRA,0,nil)
 			mg1:Merge(sg)
-	end
+		end
 	local sg1=Duel.GetMatchingGroup(c13790663.filter2,tp,LOCATION_EXTRA,0,nil,e,tp,mg1,chkf)
 	local mg2=nil
 	local sg2=nil
@@ -63,8 +63,9 @@ function c13790663.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local tg=sg:Select(tp,1,1,nil)
 		local tc=tg:GetFirst()
+		mg1:RemoveCard(tc)
 		if sg1:IsContains(tc) and (sg2==nil or not sg2:IsContains(tc) or not Duel.SelectYesNo(tp,ce:GetDescription())) then
-			local mat1=Duel.SelectFusionMaterial(tp,tc,mg1,tc,chkf)
+			local mat1=Duel.SelectFusionMaterial(tp,tc,mg1,nil,chkf)
 			tc:SetMaterial(mat1)
 			Duel.SendtoGrave(mat1,REASON_EFFECT+REASON_MATERIAL+REASON_FUSION)
 			Duel.BreakEffect()
