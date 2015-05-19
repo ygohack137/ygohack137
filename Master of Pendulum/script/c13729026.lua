@@ -13,11 +13,11 @@ function c13729026.initial_effect(c)
 	Duel.AddCustomActivityCounter(13729026,ACTIVITY_CHAIN,c13729026.chainfilter)
 end
 function c13729026.chainfilter(re,tp,cid)
-	return re:GetHandler():IsSetCard(0x98) and re:GetHandler():IsLocation(LOCATION_SZONE) and re:GetHandler():IsType(TYPE_PENDULUM)
+	return not (re:GetHandler():IsSetCard(0x98) and re:GetHandler():IsLocation(LOCATION_SZONE) 
+	and re:GetHandler():IsType(TYPE_PENDULUM) and not re:IsHasType(EFFECT_TYPE_ACTIVATE))
 end
 function c13729026.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToGraveAsCost,tp,LOCATION_HAND,0,1,e:GetHandler()) 
-	and Duel.GetCustomActivityCount(13729026,tp,ACTIVITY_CHAIN)==0 end
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToGraveAsCost,tp,LOCATION_HAND,0,1,e:GetHandler()) end
 	Duel.DiscardHand(tp,Card.IsAbleToGraveAsCost,1,1,REASON_COST)
 end
 function c13729026.filter(c)

@@ -2,7 +2,7 @@
 function c13790645.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcCodeFun(c,aux.FilterBoolFunction(Card.IsSetCard,0x99),aux.FilterBoolFunction(Card.IsType,TYPE_PENDULUM),1,true,false)
+	aux.AddFusionProcFun2(c,aux.FilterBoolFunction(Card.IsSetCard,0x99),aux.FilterBoolFunction(Card.IsType,TYPE_PENDULUM),true)
 	local e1=Effect.CreateEffect(c)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
@@ -41,7 +41,7 @@ function c13790645.operation(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function c13790645.discon(e,tp,eg,ep,ev,re,r,rp)
-	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
+	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and re:GetHandler()~=e:GetHandler() and Duel.IsChainNegatable(ev)
 end
 function c13790645.rpfilter(c)
 	return c:IsType(TYPE_PENDULUM) and c:IsFaceup() and c:IsAbleToDeck()

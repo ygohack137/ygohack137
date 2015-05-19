@@ -35,14 +35,14 @@ function c13729005.splimcon(e)
 end
 
 function c13729005.filter(c)
-	return (c:IsSetCard(0x98) or c:IsSetCard(0x99) or c:IsSetCard(0x9f)) and c:GetCode()~=13729102 and c:IsAbleToHand()
+	return c:IsType(TYPE_MONSTER) and (c:IsSetCard(0x98) or c:IsSetCard(0x99) or c:IsSetCard(0x9f)) and c:GetCode()~=13729005 and c:IsAbleToHand()
 end
 function c13729005.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13729005.filter,tp,LOCATION_DECK,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c13729005.op(e,tp,eg,ep,ev,re,r,rp)
-	local tc=Duel.GetFirstMatchingCard(c13729005.filter,tp,LOCATION_DECK,0,nil)
+	local tc=Duel.SelectMatchingCard(tp,c13729005.filter,tp,LOCATION_DECK,0,1,1,nil)
 	if tc then
 		Duel.SendtoHand(tc,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,tc)

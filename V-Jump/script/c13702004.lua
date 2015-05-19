@@ -61,7 +61,8 @@ function c13702004.xyzfilter2(c,rk)
 	return c:GetRank()==rk
 end
 function c13702004.xyzcon1(e,c,og)
-	local tp=e:GetHandler():GetControler()
+	if c==nil then return true end
+	local tp=c:GetControler()
 	local mg=Duel.GetMatchingGroup(c13702004.mfilter,tp,LOCATION_MZONE,0,nil)
 	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
 		and mg:IsExists(c13702004.xyzfilter1,1,nil,mg)
@@ -86,15 +87,18 @@ function c13702004.xyzop1(e,tp,eg,ep,ev,re,r,rp,c,og)
 end
 	--~ Special Xyz Change
 function c13702004.rumfilter(c)
-	return c:IsSetCard(0x95) and c:IsType(TYPE_SPELL) and c:IsDiscardable()
+	return c:IsSetCard(0x95) and c:IsType(TYPE_SPELL)  and not c:IsType(TYPE_QUICKPLAY) and c:IsDiscardable()
 end
 function c13702004.ovfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x7f) and c:IsType(TYPE_XYZ) and Duel.IsExistingMatchingCard(c13702004.rumfilter,tp,LOCATION_HAND,0,1,nil)
 end
 function c13702004.xyzcon2(e,c,og)
-	local tp=e:GetHandler():GetControler()
+	if chk==0 then return true end
+	if c==nil then return true end
+	local tp=c:GetControler()
+	local mg=Duel.GetMatchingGroup(c13702004.ovfilter,tp,LOCATION_MZONE,0,nil)
 	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
-		and Duel.IsExistingMatchingCard(c13702004.ovfilter,tp,LOCATION_MZONE,0,1,nil)
+		and mg:IsExists(c13702004.ovfilter,1,nil,mg)
 end
 function c13702004.xyzop2(e,tp,eg,ep,ev,re,r,rp,c,og)
 	local mg=Duel.GetMatchingGroup(c13702004.ovfilter,tp,LOCATION_MZONE,0,nil)

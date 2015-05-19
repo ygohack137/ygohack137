@@ -49,7 +49,8 @@ function c13729004.desop(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function c13729004.filter(c)
-	return c:IsSetCard(0x99) or (c:IsType(TYPE_PENDULUM) and c:IsSetCard(0x98)) and c:IsAbleToHand() and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
+	return c:IsType(TYPE_MONSTER) and (c:IsSetCard(0x99) or c:IsType(TYPE_PENDULUM) and c:IsSetCard(0x98))
+	 and c:IsAbleToHand() and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
 function c13729004.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and c13729004.filter(chkc) end
