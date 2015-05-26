@@ -19,11 +19,14 @@ end
 function c13790644.thfilter(c)
 	return c:IsFaceup() and (c:IsSetCard(0xae) or c:IsSetCard(0xaf)) and c:IsAbleToHand()
 end
+function c13790644.eqfilter(c)
+	return c:IsFaceup() and c:IsControlerCanBeChanged()
+end
 function c13790644.regtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	local atk=e:GetHandler():GetBattleTarget()
 	if chkc then return chkc:IsOnField() and chkc:IsControler(tp) and c13790644.thfilter(chkc) end
 	if chk==0 then return Duel.IsExistingTarget(c13790644.thfilter,tp,LOCATION_ONFIELD,0,1,nil)
-	and Duel.IsExistingTarget(Card.IsControlerCanBeChanged,tp,0,LOCATION_MZONE,1,atk) end
+	and Duel.IsExistingTarget(c13790644.eqfilter,tp,0,LOCATION_MZONE,1,atk) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RTOHAND)
 	local g=Duel.SelectTarget(tp,c13790644.thfilter,tp,LOCATION_ONFIELD,0,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,g,1,0,0)
@@ -33,10 +36,10 @@ function c13790644.regop(e,tp,eg,ep,ev,re,r,rp)
 	local atk=e:GetHandler():GetBattleTarget()
 	local c=e:GetHandler()
 	if tc:IsRelateToEffect(e) and Duel.SendtoHand(tc,nil,REASON_EFFECT) then
-		local dg=Duel.GetMatchingGroup(Card.IsControlerCanBeChanged,tp,0,LOCATION_MZONE,atk)
+		local dg=Duel.GetMatchingGroup(c13790644.eqfilter,tp,0,LOCATION_MZONE,atk)
 		if dg:GetCount()>0 then
 			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-			local g=Duel.SelectMatchingCard(tp,Card.IsControlerCanBeChanged,tp,0,LOCATION_MZONE,1,1,atk)
+			local g=Duel.SelectMatchingCard(tp,c13790644.eqfilter,tp,0,LOCATION_MZONE,1,1,atk)
 		local equip=g:GetFirst()
 		local atk=equip:GetTextAttack()
 		if atk<0 then atk=0 end
