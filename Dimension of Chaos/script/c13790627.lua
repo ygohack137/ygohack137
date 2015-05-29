@@ -1,5 +1,5 @@
---Magispecter Raccoon
-function c13790626.initial_effect(c)
+--Magispecter Crow
+function c13790627.initial_effect(c)
 	--pendulum summon
 	aux.AddPendulumProcedure(c)
 	--Activate
@@ -13,9 +13,9 @@ function c13790626.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP)
 	e2:SetType(EFFECT_TYPE_TRIGGER_O+EFFECT_TYPE_SINGLE)
 	e2:SetCode(EVENT_SUMMON_SUCCESS)
-	e2:SetCountLimit(1,13790626)
-	e2:SetTarget(c13790626.target)
-	e2:SetOperation(c13790626.operation)
+	e2:SetCountLimit(1,13790627)
+	e2:SetTarget(c13790627.target)
+	e2:SetOperation(c13790627.operation)
 	c:RegisterEffect(e2)
 	local e3=e2:Clone()
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -31,27 +31,27 @@ function c13790626.initial_effect(c)
 	e5:SetType(EFFECT_TYPE_SINGLE)
 	e5:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e5:SetRange(LOCATION_MZONE)
-	e5:SetCondition(c13790626.con)
-	e5:SetValue(c13790626.indval)
+	e5:SetCondition(c13790627.con)
+	e5:SetValue(c13790627.indval)
 	c:RegisterEffect(e5)
 end
-function c13790626.con(e)
+function c13790627.con(e)
 	return e:GetHandler():IsFaceup()
 end
-function c13790626.indval(e,re,tp)
+function c13790627.indval(e,re,tp)
 	return e:GetHandler():GetControler()~=tp
 end
 
-function c13790626.filter(c)
-	return c:IsSetCard(0x1e7) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+function c13790627.filter(c)
+	return c:IsSetCard(0x1e7) and c:IsType(TYPE_SPELL) and c:IsAbleToHand()
 end
-function c13790626.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c13790626.filter,tp,LOCATION_DECK,0,1,nil) end
+function c13790627.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(c13790627.filter,tp,LOCATION_DECK,0,1,nil) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
-function c13790626.operation(e,tp,eg,ep,ev,re,r,rp)
+function c13790627.operation(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c13790626.filter,tp,LOCATION_DECK,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,c13790627.filter,tp,LOCATION_DECK,0,1,1,nil)
 	if g:GetCount()>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
