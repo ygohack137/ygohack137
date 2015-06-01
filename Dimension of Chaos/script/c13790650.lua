@@ -68,15 +68,15 @@ function c13790650.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function c13790650.dfilter(c)
-	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsDestructable()
+	return c:IsDestructable()
 end
 function c13790650.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c13790650.dfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,2,nil) end
-	local g=Duel.GetMatchingGroup(c13790650.dfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
+	if chk==0 then return Duel.IsExistingMatchingCard(c13790650.dfilter,tp,LOCATION_SZONE,LOCATION_SZONE,2,nil) end
+	local g=Duel.GetMatchingGroup(c13790650.dfilter,tp,LOCATION_SZONE,LOCATION_SZONE,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
 end
 function c13790650.operation(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetMatchingGroup(c13790650.dfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,nil)
+	local g=Duel.GetMatchingGroup(c13790650.dfilter,tp,LOCATION_SZONE,LOCATION_SZONE,nil)
 	Duel.Destroy(g,REASON_EFFECT)
 end
 
