@@ -1,77 +1,103 @@
---Pot of Taboos
+--Frightfur Sabre Tiger
 function c13790643.initial_effect(c)
+	--fusion material
+	c:EnableReviveLimit()
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(13790643,0))
-	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_FLIP+EFFECT_TYPE_TRIGGER_O)
-	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
-	e1:SetCountLimit(1,13790643)
-	e1:SetTarget(c13790643.greedtg)
-	e1:SetOperation(c13790643.greedop)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e1:SetCode(EFFECT_FUSION_MATERIAL)
+	e1:SetCondition(c13790643.fscon)
+	e1:SetOperation(c13790643.fsop)
 	c:RegisterEffect(e1)
-	local e2=e1:Clone()
-	e2:SetDescription(aux.Stringid(13790643,1))
-	e2:SetTarget(c13790643.trunadetg)
-	e2:SetOperation(c13790643.trunadeop)
+	--summon
+	local e2=Effect.CreateEffect(c)
+	e2:SetCategory(CATEGORY_DESTROY)
+	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e2:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e2:SetCondition(c13790643.spcon)
+	e2:SetTarget(c13790643.sptg)
+	e2:SetOperation(c13790643.spop)
 	c:RegisterEffect(e2)
-	local e3=e1:Clone()
-	e3:SetDescription(aux.Stringid(13790643,2))
-	e3:SetTarget(c13790643.raigekitg)
-	e3:SetOperation(c13790643.raigekiop)
+	--atk
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_FIELD)
+	e3:SetCode(EFFECT_UPDATE_ATTACK)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetTargetRange(LOCATION_MZONE,0)
+	e3:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0xad))
+	e3:SetValue(400)
 	c:RegisterEffect(e3)
-	local e4=e1:Clone()
-	e4:SetDescription(aux.Stringid(13790643,3))
-	e4:SetTarget(c13790643.sentrytg)
-	e4:SetOperation(c13790643.sentryop)
+	--indes
+	local e4=Effect.CreateEffect(c)
+	e4:SetCategory(CATEGORY_DESTROY)
+	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
+	e4:SetCode(EVENT_SPSUMMON_SUCCESS)
+	e4:SetOperation(c13790643.matop)
 	c:RegisterEffect(e4)
 end
-function c13790643.greedtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsPlayerCanDraw(tp,2) end
-	Duel.SetTargetPlayer(tp)
-	Duel.SetTargetParam(2)
-	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,2)
+function c13790643.mfilter(c,mg)
+	return (c:IsSetCard(0xad) and c:IsType(TYPE_FUSION)) and (mg:IsExists(Card.IsSetCard,1,c,0xa9) or mg:IsExists(Card.IsSetCard,1,c,0xc3))
 end
-function c13790643.greedop(e,tp,eg,ep,ev,re,r,rp)
-	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
-	Duel.Draw(p,d,REASON_EFFECT)
+function c13790643.mfilter2(c,mg)
+	return c:IsSetCard(0xa9) or c:IsSetCard(0xc3)
 end
-
-function c13790643.trunadefil(c)
-	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()
+function c13790643.fscon(e,mg,gc)
+	if mg==nil then return false end
+	if gc then return (gc:IsSetCard(0xad) and gc:IsType(TYPE_FUSION))
+		and (mg:IsExists(Card.IsSetCard,1,gc,0xa9) or mg:IsExists(Card.IsSetCard,1,gc,0xc3)) end
+	return mg:IsExists(c13790643.mfilter,1,nil,mg)
 end
-function c13790643.trunadetg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local c=e:GetHandler()
-	if chk==0 then return Duel.IsExistingMatchingCard(c13790643.trunadefil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,c) end
-	local sg=Duel.GetMatchingGroup(c13790643.trunadefil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,c)
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,sg,sg:GetCount(),0,0)
-end
-function c13790643.trunadeop(e,tp,eg,ep,ev,re,r,rp)
-	local sg=Duel.GetMatchingGroup(c13790643.trunadefil,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler())
-	Duel.SendtoHand(sg,nil,REASON_EFFECT)
-end
-
-function c13790643.raigekitg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDestructable,tp,0,LOCATION_MZONE,1,nil) end
-	local sg=Duel.GetMatchingGroup(Card.IsDestructable,tp,0,LOCATION_MZONE,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,sg,sg:GetCount(),0,0)
-end
-function c13790643.raigekiop(e,tp,eg,ep,ev,re,r,rp)
-	local sg=Duel.GetMatchingGroup(Card.IsDestructable,tp,0,LOCATION_MZONE,nil)
-	Duel.Destroy(sg,REASON_EFFECT)
-end
-
-function c13790643.sentrytg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)>0 end
-	Duel.SetTargetPlayer(tp)
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,0,1-tp,LOCATION_HAND)
-end
-function c13790643.sentryop(e,tp,eg,ep,ev,re,r,rp)
-	local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
-	local g=Duel.GetFieldGroup(p,0,LOCATION_HAND)
-	if g:GetCount()>0 then
-		Duel.ConfirmCards(p,g)
-		Duel.Hint(HINT_SELECTMSG,p,HINTMSG_TODECK)
-		local sg=g:Select(p,1,1,nil)
-		Duel.SendtoDeck(sg,nil,2,REASON_EFFECT)
-		Duel.ShuffleHand(1-p)
+function c13790643.fsop(e,tp,eg,ep,ev,re,r,rp,gc)
+	if gc then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FMATERIAL)
+		local g1=eg:FilterSelect(tp,c13790643.mfilter2,1,63,nil)
+		Duel.SetFusionMaterial(g1)
+		return
 	end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FMATERIAL)
+	local g1=eg:FilterSelect(tp,c13790643.mfilter,1,1,nil,eg)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FMATERIAL)
+	local g2=eg:FilterSelect(tp,c13790643.mfilter2,1,63,g1:GetFirst())
+	g1:Merge(g2)
+	Duel.SetFusionMaterial(g1)
+end
+
+function c13790643.spcon(e,tp,eg,ep,ev,re,r,rp)
+	return bit.band(e:GetHandler():GetSummonType(),SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
+end
+
+function c13790643.filter(c,e,tp)
+	return c:IsSetCard(0xad) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+end
+function c13790643.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c13790643.filter(chkc,e,tp) end
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+		and Duel.IsExistingTarget(c13790643.filter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local g=Duel.SelectTarget(tp,c13790643.filter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
+end
+function c13790643.spop(e,tp,eg,ep,ev,re,r,rp)
+	local tc=Duel.GetFirstTarget()
+	if tc:IsRelateToEffect(e) then
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+	end
+end
+
+function c13790643.matop(e,mg,gc)
+	local c=e:GetHandler()
+	local mat=c:GetMaterial():GetCount()
+	if mat<=2 then return false end	
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e4:SetRange(LOCATION_MZONE)
+	e4:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+	e4:SetValue(1)
+	c:RegisterEffect(e4)
+	local e5=e4:Clone()
+	e5:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+	c:RegisterEffect(e5)
 end
