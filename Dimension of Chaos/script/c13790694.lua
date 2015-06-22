@@ -11,7 +11,7 @@ function c13790694.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c13790694.filter(c,tp)
-	return c:IsFaceup() and c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and c:IsSetCard(0xad)
+	return c:IsFaceup() and c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) and (c:IsSetCard(0xad) or c:IsHasEffect(36693940))
 end
 function c13790694.ffilter(c,e,tp)
 	return c:IsType(TYPE_FUSION) and c:GetLevel()>=8
