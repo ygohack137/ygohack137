@@ -27,13 +27,13 @@ function c13753040.synfilter(c)
 	return c:GetRace()==RACE_DRAGON and c:GetAttribute()==ATTRIBUTE_DARK
 end
 function c13753040.nfilter(c)
-	return c:IsFaceup() and not c:IsDisabled() and c:IsType(TYPE_EFFECT)
+	return c:IsFaceup() and not c:IsDisabled()
 end
 function c13753040.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsControler(1-tp) and chkc:IsLocation(LOCATION_MZONE) and c13753040.nfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c13753040.nfilter,tp,0,LOCATION_MZONE,1,nil) end
+	if chkc then return chkc:IsControler(1-tp) and chkc:IsLocation(LOCATION_ONFIELD) and c13753040.nfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(c13753040.nfilter,tp,0,LOCATION_ONFIELD,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
-	local g=Duel.SelectTarget(tp,c13753040.nfilter,tp,0,LOCATION_MZONE,1,1,nil)
+	local g=Duel.SelectTarget(tp,c13753040.nfilter,tp,0,LOCATION_ONFIELD,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DISABLE,g,1,0,0)
 end
 function c13753040.operation(e,tp,eg,ep,ev,re,r,rp)
