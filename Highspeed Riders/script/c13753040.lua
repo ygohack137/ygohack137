@@ -24,7 +24,7 @@ function c13753040.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c13753040.synfilter(c)
-	return c:GetRace()==RACE_DRAGON and c:GetAttribute()==ATTRIBUTE_DARK
+	return c:GetRace()==RACE_DRAGON and c:GetAttribute()==ATTRIBUTE_DARK and c:IsType(TYPE_SYNCHRO)
 end
 function c13753040.nfilter(c)
 	return c:IsFaceup() and not c:IsDisabled()
