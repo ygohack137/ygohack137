@@ -43,7 +43,7 @@ function c13790639.initial_effect(c)
 	e6:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e6:SetCode(EVENT_DESTROYED)
 	e6:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
-	e6:SetCountLimit(1,10117149)
+	e6:SetCountLimit(1,13790639)
 	e6:SetCondition(c13790639.spcon)
 	e6:SetTarget(c13790639.sptg)
 	e6:SetOperation(c13790639.spop)
@@ -67,8 +67,10 @@ function c13790639.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 function c13790639.desop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
-		Duel.ChangePosition(tc,POS_FACEUP_DEFENCE,0,POS_FACEUP_ATTACK,0)
+	if tc:IsRelateToEffect(e) and tc:IsAttackPos() then
+		Duel.ChangePosition(tc,POS_FACEUP_DEFENCE)
+	elseif tc:IsRelateToEffect(e) and tc:IsDefencePos() then
+		Duel.ChangePosition(tc,POS_FACEUP_ATTACK)
 	end
 end
 function c13790639.cfilter(c)
