@@ -14,7 +14,7 @@ function c13790601.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c13790601.filter(c)
-	return c:IsSetCard(0x9f) and not c:IsCode(13790601) and (c:IsAbleToHand() or c:IsAbleToGrave())
+	return c:IsSetCard(0x9f) and c:IsType(TYPE_MONSTER) and not c:IsCode(13790601) and (c:IsAbleToHand() or c:IsAbleToGrave())
 end
 function c13790601.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13790601.filter,tp,LOCATION_DECK,0,1,nil) end
