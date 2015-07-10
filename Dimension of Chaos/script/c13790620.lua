@@ -21,7 +21,7 @@ function c13790620.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST+REASON_DISCARD)
 end
 function c13790620.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetAttacker():GetControler()~=tp
+	return Duel.GetAttacker():GetControler()~=tp and Duel.GetAttacker():IsPosition(POS_FACEUP_ATTACK)
 end
 function c13790620.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetAttacker()

@@ -2,6 +2,7 @@
 function c13790619.initial_effect(c)
 	--summon & set with no tribute
 	local e1=Effect.CreateEffect(c)
+	e1:SetDescription(aux.Stringid(18842395,0))
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_SUMMON_PROC)
@@ -10,7 +11,8 @@ function c13790619.initial_effect(c)
 	c:RegisterEffect(e1)
 	--spsummon
 	local e2=Effect.CreateEffect(c)
-	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e2:SetProperty(EFFECT_FLAG_DELAY)
+	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e2:SetCode(EVENT_RELEASE)
 	e2:SetCountLimit(1,13790619)
@@ -33,8 +35,6 @@ function c13790619.ntop(e,tp,eg,ep,ev,re,r,rp,c)
 	e1:SetValue(1900)
 	c:RegisterEffect(e1)
 end
-
-
 function c13790619.spfilter(c,e,tp)
 	return c:IsSetCard(0x1373)
 end
