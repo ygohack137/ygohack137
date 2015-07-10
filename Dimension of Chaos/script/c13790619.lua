@@ -36,8 +36,7 @@ end
 
 
 function c13790619.spfilter(c,e,tp)
-	local code=c:GetCode()
-	return code==5405694 or code==13790642 or code==72989439 or code==77498348
+	return c:IsSetCard(0x1373)
 end
 function c13790619.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13790619.spfilter,tp,LOCATION_DECK,0,1,nil) end

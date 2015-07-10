@@ -1,4 +1,4 @@
---Knight of the Twilight
+--Knight of the Evening Twilight
 function c13790622.initial_effect(c)
 	--pierce
 	local e1=Effect.CreateEffect(c)
