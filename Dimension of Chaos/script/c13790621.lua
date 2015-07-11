@@ -18,7 +18,6 @@ function c13790621.initial_effect(c)
 	e2:SetTarget(c13790621.thtg)
 	e2:SetOperation(c13790621.thop)
 	c:RegisterEffect(e2)
-
 end
 function c13790621.cfilter(c)
 	return c:IsSetCard(0x1373) and c:IsAbleToGraveAsCost()

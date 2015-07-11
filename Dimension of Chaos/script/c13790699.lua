@@ -38,12 +38,9 @@ end
 function c13790699.operation(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
-		if Duel.Destroy(tc,REASON_EFFECT)~=0 then
-			Duel.BreakEffect()
 			local atk=tc:GetBaseAttack()
 			if atk<0 then atk=0 end
 			Duel.Damage(1-tp,atk,REASON_EFFECT)
-		end
 	end
 end
 
