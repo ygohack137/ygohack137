@@ -9,7 +9,8 @@ function c13701801.initial_effect(c)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetCountLimit(1,13701801)
 	e1:SetCondition(c13701801.con)
-	e1:SetOperation(c13701801.op)
+	e1:SetTarget(c13701801.target)
+	e1:SetOperation(c13701801.activate)
 	c:RegisterEffect(e1)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
@@ -17,7 +18,7 @@ function c13701801.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c13701801.con(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetFieldGroupCount(tp,LOCATION_MZONE)<=1
+	return Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==1
 end
 function c13701801.filter(c,e,tp)
 	return c:IsSetCard(0x43) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
