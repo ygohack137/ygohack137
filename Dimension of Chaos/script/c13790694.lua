@@ -39,14 +39,17 @@ function c13790694.activate(e,tp,eg,ep,ev,re,r,rp)
 				local g=Duel.SelectMatchingCard(tp,c13790694.ffilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp)
 				local tc2=g:GetFirst()
 				if Duel.SpecialSummon(tc2,SUMMON_TYPE_FUSION,tp,tp,false,false,POS_FACEUP)~=0 then
-				local e2=Effect.CreateEffect(e:GetHandler())
-				e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-				e2:SetCode(EVENT_PHASE+PHASE_END)
-				e2:SetCountLimit(1)
-				e2:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-				e2:SetLabelObject(tc2)
-				e2:SetOperation(c13790694.desop)
-				Duel.RegisterEffect(e2,tp)
+				
+				local e1=Effect.CreateEffect(e:GetHandler())
+				e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+				e1:SetRange(LOCATION_MZONE)
+				e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+				e1:SetCode(EVENT_PHASE+PHASE_END)
+				e1:SetOperation(c13790694.desop)
+				e1:SetLabelObject(tc2)
+				e1:SetCountLimit(1)
+				tc2:RegisterEffect(e1)
+				
 			end
 		end
 	end

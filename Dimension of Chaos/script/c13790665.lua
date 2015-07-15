@@ -28,6 +28,7 @@ function c13790665.activate(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.SelectMatchingCard(tp,c13790665.filter,tp,LOCATION_DECK,0,1,1,nil)
 	if g:GetCount()>0 and Duel.SendtoGrave(g,REASON_EFFECT)>0 then
 		Duel.BreakEffect()
+		local tc=g:GetFirst()
 		local hc=Duel.GetFirstMatchingCard(c13790665.filter2,tp,LOCATION_DECK,0,nil,tc:GetCode())
 		if hc then
 			Duel.SendtoHand(hc,nil,REASON_EFFECT)

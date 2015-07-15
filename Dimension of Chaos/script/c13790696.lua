@@ -1,120 +1,78 @@
---Knight of the Twilight
-function c13790622.initial_effect(c)
-	--pierce
+--Greydle Parasite
+function c13790696.initial_effect(c)
+	--activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
-	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
-	e1:SetCode(EVENT_BE_MATERIAL)
-	e1:SetCountLimit(1,13790622)
-	e1:SetCondition(c13790622.pscon)
-	e1:SetOperation(c13790622.psop)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
+	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetTarget(c13790696.target1)
+	e1:SetOperation(c13790696.operation)
 	c:RegisterEffect(e1)
-	--tograve
+	--
 	local e2=Effect.CreateEffect(c)
-	e2:SetCategory(CATEGORY_TOGRAVE)
-	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
-	e2:SetCode(EVENT_REMOVE)
-	e2:SetCountLimit(1,13791696)
-	e2:SetTarget(c13790622.tgtg)
-	e2:SetOperation(c13790622.tgop)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e2:SetCode(EVENT_ATTACK_ANNOUNCE)
+	e2:SetRange(LOCATION_SZONE)
+	e2:SetCountLimit(1,13790696)
+	e2:SetCondition(c13790696.condition)
+	e2:SetTarget(c13790696.target2)
+	e2:SetOperation(c13790696.operation)
 	c:RegisterEffect(e2)
 end
-function c13790622.pscon(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	return r==REASON_RITUAL and (c:GetReasonCard():GetCode()==5405694  or c:GetReasonCard():GetCode()==13790642)
+function c13790696.spfilter1(c,e,tp)
+	return c:IsSetCard(0x1e71) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c13790622.psop(e,tp,eg,ep,ev,re,r,rp)
-	local rc=e:GetHandler():GetReasonCard()
-	local c=e:GetHandler()
-	--chain attack
-	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(13790622,0))
-	e2:SetCategory(CATEGORY_REMOVE)
-	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e2:SetType(EFFECT_TYPE_IGNITION)
-	e2:SetCountLimit(1)
-	e2:SetRange(LOCATION_MZONE)
-	e2:SetReset(RESET_EVENT+0x1fe0000)
-	e2:SetTarget(c13790622.rmtg1)
-	e2:SetOperation(c13790622.rmop1)
-	rc:RegisterEffect(e2)
-	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(13790622,1))
-	e2:SetCategory(CATEGORY_REMOVE)
-	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e2:SetType(EFFECT_TYPE_IGNITION)
-	e2:SetCountLimit(1)
-	e2:SetRange(LOCATION_MZONE)
-	e2:SetReset(RESET_EVENT+0x1fe0000)
-	e2:SetTarget(c13790622.rmtg)
-	e2:SetOperation(c13790622.rmop)
-	rc:RegisterEffect(e2)
+function c13790696.filter(c,e,tp)
+	return c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_DEFENCE,1-tp)
 end
-function c13790622.rmtg1(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:GetLocation()==LOCATION_MZONE and chkc:IsAbleToRemove() end
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,0,LOCATION_HAND,1,nil) end
+function c13790696.condition(e,tp,eg,ep,ev,re,r,rp)
+	return (Duel.GetAttacker():IsControler(1-tp) and Duel.GetAttackTarget()==nil and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0)
+	or (Duel.GetAttacker():IsControler(tp) and Duel.GetAttacker():IsSetCard(0x1e71) and Duel.GetAttackTarget()==nil and 
+	Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)==0 and Duel.IsExistingTarget(c13790696.filter,tp,0,LOCATION_GRAVE,1,nil,e,tp))
+	and Duel.GetFlagEffect(tp,13790696)==0
 end
-function c13790622.rmop1(e,tp,eg,ep,ev,re,r,rp)
-		local g=Duel.GetMatchingGroup(Card.IsAbleToRemove,tp,0,LOCATION_HAND,nil)
-		if g:GetCount()==0 then return end
-		local rg=g:RandomSelect(tp,1)
-		local tc=rg:GetFirst()
-		Duel.Remove(tc,POS_FACEDOWN,REASON_EFFECT)
-		tc:RegisterFlagEffect(13790622,RESET_EVENT+0x1fe0000,0,1)
-		local e1=Effect.CreateEffect(e:GetHandler())
-		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-		e1:SetCode(EVENT_PHASE+PHASE_END)
-		e1:SetCountLimit(1)
-		e1:SetLabelObject(tc)
-		e1:SetReset(RESET_PHASE+PHASE_END,2)
-		e1:SetCondition(c13790622.retcon)
-		e1:SetOperation(c13790622.retop)
-		Duel.RegisterEffect(e1,tp)
+function c13790696.target1(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	if not Duel.CheckEvent(EVENT_ATTACK_ANNOUNCE) or Duel.GetFlagEffect(tp,13790696)~=0 then return false end
+	if Duel.CheckEvent(EVENT_ATTACK_ANNOUNCE) and 
+	(Duel.GetAttacker():IsControler(1-tp) and Duel.GetAttackTarget()==nil and Duel.SelectYesNo(tp,aux.Stringid(13790696,0)) 
+	and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 and Duel.IsExistingMatchingCard(c13790696.spfilter1,tp,LOCATION_DECK,0,1,nil,e,tp))
+		then
+		Duel.RegisterFlagEffect(tp,13790696,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+		e:SetLabel(1)
+	elseif (Duel.GetAttacker():IsControler(tp) and Duel.GetAttacker():IsSetCard(0x1e71) and Duel.GetAttackTarget()==nil and Duel.SelectYesNo(tp,aux.Stringid(13790696,1))
+	 and Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)==0 and Duel.IsExistingTarget(c13790696.filter,tp,0,LOCATION_GRAVE,1,nil,e,tp)) then
+	 Duel.RegisterFlagEffect(tp,13790696,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
+	 e:SetLabel(2) 
+	 local g=Duel.SelectTarget(tp,c13790696.filter,tp,0,LOCATION_GRAVE,1,1,nil,e,tp)
+	 else
+	 e:SetLabel(0)
+	 end
 end
-function c13790622.retcon(e,tp,eg,ep,ev,re,r,rp)
-	local tc=e:GetLabelObject()
-	if tc:GetFlagEffect(13790622)==0 then
-		e:Reset()
-		return false
-	else
-		return Duel.GetTurnPlayer()==1-tp
+function c13790696.target2(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return (Duel.GetAttacker():IsControler(1-tp) and Duel.GetAttackTarget()==nil and 
+	Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 and Duel.IsExistingMatchingCard(c13790696.spfilter1,tp,LOCATION_DECK,0,1,nil,e,tp))
+	or (Duel.GetAttacker():IsControler(tp) and Duel.GetAttacker():IsSetCard(0x1e71) and Duel.GetAttackTarget()==nil and 
+	Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)==0 and Duel.IsExistingTarget(c13790696.filter,tp,0,LOCATION_GRAVE,1,nil,e,tp)) end
+	if Duel.GetAttacker():IsControler(tp) then	 
+	 e:SetLabel(2) 
+	 local g=Duel.SelectTarget(tp,c13790696.filter,tp,0,LOCATION_GRAVE,1,1,nil,e,tp)
+	 else 
+	 e:SetLabel(1) 
+	 end
+end
+function c13790696.operation(e,tp,eg,ep,ev,re,r,rp)
+	if e:GetLabel()==0 or not e:GetHandler():IsRelateToEffect(e) then return end
+	if Duel.GetAttacker():IsControler(1-tp) and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 then 
+	local g=Duel.SelectMatchingCard(tp,c13790696.spfilter1,tp,LOCATION_DECK,0,1,1,nil,e,tp)
+		if g:GetCount()>0 then
+			Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_ATTACK)
+		end
 	end
-end
-function c13790622.retop(e,tp,eg,ep,ev,re,r,rp)
-	local tc=e:GetLabelObject()
-	Duel.SendtoHand(tc,1-tp,REASON_EFFECT)
-end
-
-
-function c13790622.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:GetLocation()==LOCATION_MZONE and chkc:IsAbleToRemove() end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsAbleToRemove,tp,0,LOCATION_MZONE,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectTarget(tp,Card.IsAbleToRemove,tp,0,LOCATION_MZONE,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
-end
-function c13790622.rmop(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.GetAttacker():IsControler(tp) and Duel.GetAttacker():IsSetCard(0x1e71)
+	and Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)==0 then 
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
-		Duel.Remove(tc,POS_FACEUP,REASON_EFFECT)
-	end
-end
-
-
-
-function c13790622.thfilter(c)
-	return c:IsType(TYPE_RITUAL) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
-end
-function c13790622.tgtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c13790622.thfilter,tp,LOCATION_DECK,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
-end
-function c13790622.tgop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c13790622.thfilter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
-		Duel.SendtoHand(g,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,g)
-	end
+		if tc:IsRelateToEffect(e) then
+			Duel.SpecialSummon(tc,0,tp,1-tp,false,false,POS_FACEUP)
+		end
+	end	
 end
