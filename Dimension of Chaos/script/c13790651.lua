@@ -11,15 +11,11 @@ function c13790651.initial_effect(c)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCountLimit(1,13790651)
 	e1:SetRange(LOCATION_MZONE)
-	e1:SetCondition(c13790651.condition)
 	e1:SetCost(c13790651.cost)
 	e1:SetTarget(c13790651.target)
 	e1:SetOperation(c13790651.operation)
 	c:RegisterEffect(e1)
 
-end
-function c13790651.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCurrentPhase()==PHASE_MAIN1
 end
 function c13790651.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end

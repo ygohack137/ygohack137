@@ -28,13 +28,13 @@ function c13753061.splimit(e,se,sp,st)
 end
 
 function c13753061.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return rp~=tp and Duel.GetFieldGroupCount(tp,LOCATION_ONFIELD,0)<=0
+	return rp~=tp and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)<=0
 end
 function c13753061.filter(c,e,tp)
 	return c:IsCode(13753060) and c:IsCanBeSpecialSummoned(e,0,tp,true,true)
 end
 function c13753061.filter2(c)
-	return c:IsCode(13753060) and c:IsAbleToHand()
+	return c:IsCode(13753060) or c:IsCode(13753063) and c:IsAbleToHand()
 end
 function c13753061.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>1

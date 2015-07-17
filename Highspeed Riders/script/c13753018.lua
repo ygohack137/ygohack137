@@ -11,7 +11,7 @@ function c13753018.initial_effect(c)
 
 end
 function c13753018.cfilter(c,e,tp)
-	return c:IsType(TYPE_SYNCHRO)
+	return c:IsFaceup() and c:IsType(TYPE_SYNCHRO)
 end
 function c13753018.filter(c,e,tp)
 	return c:IsSetCard(0x57) and c:GetCode()~=13753018 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
