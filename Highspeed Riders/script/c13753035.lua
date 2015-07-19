@@ -37,12 +37,13 @@ function c13753035.initial_effect(c)
 end
 function c13753035.condition(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
-	return ph==PHASE_MAIN1 or ph==PHASE_MAIN2 and Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)>=1
+	return ph==PHASE_MAIN1 or ph==PHASE_MAIN2 and Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)>0
 end
 function c13753035.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.GetFieldGroup(tp,0,LOCATION_HAND)
 	if g==0 then return false end
-	if chk==0 then return  Duel.GetCurrentPhase(PHASE_MAIN1) or Duel.GetCurrentPhase(PHASE_MAIN2) end
+	if chk==0 then return  (Duel.GetCurrentPhase(PHASE_MAIN1) or Duel.GetCurrentPhase(PHASE_MAIN2)) 
+	and Duel.GetFieldGroupCount(tp,0,LOCATION_HAND)>0 end
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,nil,1,1-tp,LOCATION_HAND)
 end
 function c13753035.operation(e,tp,eg,ep,ev,re,r,rp)
