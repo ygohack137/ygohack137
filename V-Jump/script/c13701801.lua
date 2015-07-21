@@ -18,7 +18,7 @@ function c13701801.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c13701801.con(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==1
+	return Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)<=1
 end
 function c13701801.filter(c,e,tp)
 	return c:IsSetCard(0x43) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)

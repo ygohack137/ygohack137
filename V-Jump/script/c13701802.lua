@@ -88,14 +88,20 @@ end
 function c13701802.operation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	local c=e:GetHandler()
-	local xmat=e:GetHandler():GetOverlayCount()
+	local og=c:GetOverlayGroup()
+	local of=og:GetFirst()
+	local ct=0
+	while og:GetCount()>0 do
+		og:Remove(Card.IsCode,nil,of:GetCode())
+		of=og:GetNext()
+		ct=ct+1
+	end
 	local g=Duel.GetMatchingGroup(c13701802.spfilter,tp,LOCATION_EXTRA,0,nil,e,tp)
-	while xmat==e:GetHandler():GetOverlayCount() or (xmat>0 and g:GetCount()>0
-	and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.SelectYesNo(tp,aux.Stringid(49080532,1)))  do
+	while ct>0 and g:GetCount()>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 do
 		local sg1=g:Select(tp,1,1,nil)
 		local tc=sg1:GetFirst()
 		g:Remove(c13701802.rfilter,nil,tc:GetRank())
-		xmat=xmat-1
+		ct=ct-1
 		Duel.SpecialSummonStep(tc,0,tp,tp,false,false,POS_FACEUP)		
 		local e2=Effect.CreateEffect(c)
 		e2:SetType(EFFECT_TYPE_SINGLE)
@@ -108,6 +114,7 @@ function c13701802.operation(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetReset(RESET_EVENT+0x1fe0000)
 		tc:RegisterEffect(e3)
 	tc=sg1:GetNext()
+	if g:GetCount()>0 and ct>0 and not Duel.SelectYesNo(tp,aux.Stringid(68191243,0)) then ct=0 end
 	end
 	Duel.SpecialSummonComplete()
 	c:RemoveOverlayCard(tp,1,1,REASON_EFFECT)
