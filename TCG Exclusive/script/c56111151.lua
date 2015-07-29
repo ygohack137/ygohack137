@@ -18,7 +18,6 @@ function c56111151.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCountLimit(1)
-	e3:SetCost(c56111151.cost)
 	e3:SetTarget(c56111151.target)
 	e3:SetOperation(c56111151.operation)
 	c:RegisterEffect(e3)
@@ -41,16 +40,12 @@ function c56111151.counter(e,tp,eg,ep,ev,re,r,rp)
 		e:GetHandler():AddCounter(0x2a,1)
 	end
 end
-
-function c56111151.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x2a,3,REASON_COST) end
-	e:GetHandler():RemoveCounter(tp,0x2a,3,REASON_COST)
-end
 function c56111151.kfilter(c)
 	return c:IsSetCard(0x223) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end
 function c56111151.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c56111151.kfilter,tp,LOCATION_DECK,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c56111151.kfilter,tp,LOCATION_DECK,0,1,nil) 
+	and e:GetHandler():IsCanRemoveCounter(tp,0x2a,3,REASON_COST) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c56111151.operation(e,tp,eg,ep,ev,re,r,rp)

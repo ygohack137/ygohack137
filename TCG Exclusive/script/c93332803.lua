@@ -57,8 +57,8 @@ end
 
 
 function c93332803.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,0x2a,3,REASON_COST) end
-	Duel.RemoveCounter(tp,1,0,0x2a,3,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x2a,3,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x2a,3,REASON_COST)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_OATH)

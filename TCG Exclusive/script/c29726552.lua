@@ -59,8 +59,8 @@ function c29726552.filter(c,e,tp)
 	return c:IsFaceup() and c:IsControler(1-tp) and (not e or c:IsRelateToEffect(e))
 end
 function c29726552.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,0x2a,2,REASON_COST) end
-	Duel.RemoveCounter(tp,1,0,0x2a,2,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x2a,2,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x2a,2,REASON_COST)
 end
 function c29726552.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return eg:IsExists(c29726552.filter,1,nil,nil,tp) end
