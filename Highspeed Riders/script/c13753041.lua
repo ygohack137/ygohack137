@@ -67,7 +67,7 @@ function c13753041.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Release(g,REASON_COST)
 end
 function c13753041.filter1(c,e,tp)
-	return (c:IsCode(39765958) or  c:IsCode(70902743) or  c:IsCode(13753040) or c:IsCode(13753041))
+	return (c:IsCode(39765958) or  c:IsCode(70902743) or  c:IsCode(13753040) or c:IsCode(13753041) or c:IsCode(13701803))
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
 function c13753041.sptg1(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
