@@ -57,7 +57,7 @@ function c13790501.activate(e,tp,eg,ep,ev,re,r,rp)
 		if lp<=lv*300 then
 			Duel.SetLP(tp,0)
 		else
-			Duel.SetLP(tp,lp-lv*300)
+			Duel.SetLP(tp,lp-lv*100)
 		end
 	end
 end
