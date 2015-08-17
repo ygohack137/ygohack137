@@ -56,10 +56,11 @@ function c13790609.RPGOperation(filter)
 					Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_RELEASE)
 					local mat=mg:SelectWithSumGreater(tp,Card.GetRitualLevel,tc:GetOriginalLevel(),tc)
 					tc:SetMaterial(mat)
-					if tc:IsLocation(LOCATION_HAND+LOCATION_MZONE) then
+					if tc:IsLocation(LOCATION_MZONE) then
 						Duel.ReleaseRitualMaterial(mat)
-					end
+					else
 						Duel.SendtoGrave(mat,REASON_EFFECT)
+					end
 					Duel.BreakEffect()
 					Duel.SpecialSummon(tc,SUMMON_TYPE_RITUAL,tp,tp,false,true,POS_FACEUP)
 					tc:CompleteProcedure()
