@@ -27,7 +27,7 @@ function c13790602.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c13790602.filter(c)
-	return c:IsSetCard(0x9f) or c:IsSetCard(0x99)
+	return c:IsSetCard(0x9f) or c:IsSetCard(0x99) and c:IsType(TYPE_MONSTER)
 end
 function c13790602.lvtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13790602.filter,tp,LOCATION_HAND,0,1,nil) end
