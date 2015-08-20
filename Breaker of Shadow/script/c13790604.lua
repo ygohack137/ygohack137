@@ -40,11 +40,11 @@ function c13790604.initial_effect(c)
 	e5:SetOperation(c13790604.operation)
 	c:RegisterEffect(e5)
 end
-function c13790604.filter(c)
+function c13790604.stfilter(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP)
 end
 function c13790604.sccon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c13790604.filter,tp,LOCATION_GRAVE,0,1,nil)
+	return Duel.IsExistingMatchingCard(c13790604.stfilter,tp,LOCATION_GRAVE,0,1,nil)
 end
 function c13790604.cacon(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()

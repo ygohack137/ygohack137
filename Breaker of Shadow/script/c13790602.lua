@@ -10,7 +10,7 @@ function c13790602.initial_effect(c)
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(83982270,0))
 	e2:SetCategory(CATEGORY_DESTROY+CATEGORY_DAMAGE)
-	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_BATTLE_DESTROYED)
 	e2:SetCondition(c13790602.condition)
 	e2:SetTarget(c13790602.target)
@@ -30,7 +30,7 @@ function c13790602.filter(c)
 	return c:IsSetCard(0x9f) or c:IsSetCard(0x99) and c:IsType(TYPE_MONSTER)
 end
 function c13790602.lvtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c13790602.filter,tp,LOCATION_HAND,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c13790602.filter,tp,LOCATION_HAND,0,1,e:GetHandler()) end
 end
 function c13790602.afilter(c,code)
 	return c:IsCode(code)

@@ -72,7 +72,7 @@ function c13790601.filter(c)
 	return c:IsSetCard(0x9f) or c:IsSetCard(0x99) and c:IsType(TYPE_MONSTER)
 end
 function c13790601.lvtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c13790601.filter,tp,LOCATION_HAND,0,1,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c13790601.filter,tp,LOCATION_HAND,0,1,e:GetHandler()) end
 end
 function c13790601.afilter(c,code)
 	return c:IsCode(code)
