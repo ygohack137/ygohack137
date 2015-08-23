@@ -49,7 +49,7 @@ end
 
 
 function c13790608.actarget(e,te,tp)
-	return te:GetHandler():GetLocation()~=LOCATION_DECK
+	return te:GetHandler():GetControler()~=e:GetHandler():GetControler()
 end
 function c13790608.costcon(e)
 	c13790608[0]=false
