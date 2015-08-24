@@ -4,7 +4,7 @@ function c13790608.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(81896370,0))
 	e1:SetCategory(CATEGORY_TOHAND)
-	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetCountLimit(1,13790608)
 	e1:SetTarget(c13790608.target)
@@ -49,7 +49,7 @@ end
 
 
 function c13790608.actarget(e,te,tp)
-	return te:GetHandler():GetControler()~=e:GetHandler():GetControler()
+	return te:GetHandler():GetControler()~=tp
 end
 function c13790608.costcon(e)
 	c13790608[0]=false
