@@ -26,7 +26,7 @@ function c13701808.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c13701808.cfilter(c)
-	return c:IsSetCard(0xb1) and c:IsDiscardable()
+	return c:IsSetCard(0xb1) and c:IsType(TYPE_MONSTER) and c:IsDiscardable()
 end
 function c13701808.ovfilter(c)
 	return c:IsFaceup() and (c:IsCode(18386170) or c:IsCode(83531441))
