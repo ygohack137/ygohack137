@@ -1,8 +1,8 @@
+--Fix by Eerie Code
 --Odd-Eyes Gravity Dragon
 function c13790608.initial_effect(c)
 	c:EnableReviveLimit()
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(81896370,0))
 	e1:SetCategory(CATEGORY_TOHAND)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
@@ -21,13 +21,6 @@ function c13790608.initial_effect(c)
 	e2:SetCost(c13790608.costchk)
 	e2:SetOperation(c13790608.costop)
 	c:RegisterEffect(e2)
-	local e7=Effect.CreateEffect(c)
-	e7:SetType(EFFECT_TYPE_FIELD)
-	e7:SetCode(0x10000000+13790608)
-	e7:SetRange(LOCATION_MZONE)
-	e7:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e7:SetTargetRange(0,1)
-	c:RegisterEffect(e7)
 end
 function c13790608.filter(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()
@@ -47,20 +40,13 @@ function c13790608.operation(e,tp,eg,ep,ev,re,r,rp)
 end
 
 
-
 function c13790608.actarget(e,te,tp)
-	return te:GetHandler():GetControler()~=tp
-end
-function c13790608.costcon(e)
-	c13790608[0]=false
-	return true
+	return te:IsActiveType(TYPE_MONSTER+TYPE_SPELL+TYPE_TRAP)
 end
 function c13790608.costchk(e,te_or_c,tp)
 	return Duel.CheckLPCost(tp,500)
 end
 function c13790608.costop(e,tp,eg,ep,ev,re,r,rp)
-	if c13790608[0] then return end
-	Duel.PayLPCost(tp,Duel.GetFlagEffect(tp,13790608)*500)
-	c13790608[0]=true
+	Duel.PayLPCost(tp,500)
 end
 
