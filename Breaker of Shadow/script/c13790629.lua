@@ -34,7 +34,7 @@ function c13790629.initial_effect(c)
 
 end
 function c13790629.cfilter(c)
-	return c:IsFaceup() and c:IsCode(78193831)
+	return c:IsFaceup() and (c:IsCode(78193831) or c:IsCode(13790617))
 end
 function c13790629.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return not Duel.IsExistingMatchingCard(c13790629.cfilter,tp,LOCATION_MZONE,0,1,nil)
