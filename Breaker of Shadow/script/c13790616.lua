@@ -49,7 +49,6 @@ function c13790616.target(e,tp,eg,ep,ev,re,r,rp,chk)
 		return res
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
-	Duel.SetChainLimit(aux.FALSE)
 end
 function c13790616.activate(e,tp,eg,ep,ev,re,r,rp)
 	local chkf=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and PLAYER_NONE or tp
