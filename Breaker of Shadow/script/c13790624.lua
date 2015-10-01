@@ -29,7 +29,7 @@ function c13790624.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c13790624.cfilter(c,tp)
-	return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x1e71)
+	return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x1e71) and c:IsLocation(LOCATION_ONFIELD)
 end
 function c13790624.discon(e,tp,eg,ep,ev,re,r,rp)
 	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
@@ -37,7 +37,8 @@ function c13790624.discon(e,tp,eg,ep,ev,re,r,rp)
 	return g and g:IsExists(c13790624.cfilter,1,nil)
 end
 function c13790624.disop(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.SelectYesNo(tp,aux.Stringid(13790624,0)) then
+	if e:GetHandler():GetFlagEffect(13790624)~=0 and Duel.SelectYesNo(tp,aux.Stringid(13790624,0)) then
+		e:GetHandler():RegisterFlagEffect(13790624,RESET_EVENT+0x1ec0000,0,1)
 		Duel.NegateEffect(ev)
 		Duel.Destroy(e:GetHandler(),REASON_EFFECT)
 	else end
@@ -109,11 +110,14 @@ function c13790624.operation1(e,tp,eg,ep,ev,re,r,rp)
 			local g=g1:Select(tp,1,1,nil)
 			Duel.SendtoDeck(g,nil,2,REASON_EFFECT)
 		elseif opt==2 then
-			Duel.ConfirmCards(tp,g2)
-			Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
 			local g=g2:RandomSelect(tp,1)
 			Duel.SendtoDeck(g,nil,2,REASON_EFFECT)
-			Duel.ShuffleHand(1-tp)
+			local e1=Effect.CreateEffect(e:GetHandler())
+			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetCode(EFFECT_UPDATE_ATTACK)
+			e1:SetReset(RESET_EVENT+0xfe0000)
+			e1:SetValue(100)
+			c:RegisterEffect(e1)
 		end
 	end
 end

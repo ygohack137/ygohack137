@@ -23,7 +23,7 @@ function c13790627.condition(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsLocation(LOCATION_GRAVE) and r==REASON_SYNCHRO
 end
 function c13790627.filter(c)
-	return c:IsCode(13790610) and c:IsAbleToHand()
+	return c:IsSetCard(0x1374) and (not c:IsCode(13790610)) and c:IsAbleToHand()
 end
 function c13790627.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13790627.filter,tp,LOCATION_DECK,0,1,nil) end
