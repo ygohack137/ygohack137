@@ -12,11 +12,9 @@ function c13790616.initial_effect(c)
 	--spsummon
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TOHAND)
-	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e1:SetCode(EVENT_TO_GRAVE)
-	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DELAY)
+	e1:SetType(EFFECT_TYPE_IGNITION)
+	e1:SetRange(LOCATION_GRAVE)
 	e1:SetCountLimit(1,137906162)
-	e1:SetCondition(c13790616.spcon)
 	e1:SetCost(c13790616.cost)
 	e1:SetTarget(c13790616.sptg)
 	e1:SetOperation(c13790616.spop)
@@ -82,10 +80,6 @@ function c13790616.activate(e,tp,eg,ep,ev,re,r,rp)
 		end
 		tc:CompleteProcedure()
 	end
-end
-
-function c13790616.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return not e:GetHandler():IsReason(REASON_RETURN)
 end
 
 function c13790616.cost(e,tp,eg,ep,ev,re,r,rp,chk)

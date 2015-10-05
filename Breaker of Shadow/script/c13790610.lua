@@ -16,7 +16,7 @@ function c13790610.descon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnCount()~=e:GetHandler():GetTurnID()
 end
 function c13790610.filter1(c,e,tp,lv)
-	return (not c:IsType(TYPE_TUNER)) and c:IsAbleToRemove()
+	return (not c:IsType(TYPE_TUNER)) and c:IsAbleToRemove() and c:IsRace(RACE_ZOMBIE) 
 		and Duel.IsExistingMatchingCard(c13790610.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,lv+c:GetLevel())
 end
 function c13790610.filter2(c,e,tp,lv)
