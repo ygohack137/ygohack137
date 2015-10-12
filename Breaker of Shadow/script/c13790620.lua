@@ -24,12 +24,12 @@ function c13790620.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c13790620.cfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x98)
+	return (c:GetSequence()==6 or c:GetSequence()==7) and c:IsSetCard(0x98)
 end
 function c13790620.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_SZONE) and chkc:IsControler(tp) and c13790620.cfilter(chkc) end
 	local c=e:GetHandler()
-	if chk==0 then return Duel.IsExistingTarget(c13790620.cfilter,tp,LOCATION_SZONE,0,1,nil)
+	if chk==0 then return Duel.IsExistingTarget(c13790620.cfilter,tp,LOCATION_SZONE,0,2,nil)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and c:IsCanBeSpecialSummoned(e,0,tp,false,false) end
 end
 function c13790620.spop(e,tp,eg,ep,ev,re,r,rp)
