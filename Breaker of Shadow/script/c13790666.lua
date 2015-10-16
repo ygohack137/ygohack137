@@ -1,4 +1,4 @@
---Recklessness
+--Dynaster Pendulum, the Powerful Dracoslayer
 function c13790666.initial_effect(c)
 	c:EnableReviveLimit()
 	--special summon rule
@@ -18,15 +18,28 @@ function c13790666.initial_effect(c)
 	e2:SetTarget(c13790666.sptg)
 	e2:SetOperation(c13790666.spop2)
 	c:RegisterEffect(e2)
-end
-function c13790666.ffilter(c)
-	return c:IsRace(RACE_DRAGON) and c:IsAttribute(ATTRIBUTE_DARK)
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_FIELD)
+	e3:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetTargetRange(LOCATION_MZONE+LOCATION_SZONE,0)
+	e3:SetTarget(c13790666.indtg)
+	e3:SetValue(1)
+	c:RegisterEffect(e3)
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_FIELD)
+	e4:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
+	e4:SetRange(LOCATION_MZONE)
+	e4:SetTargetRange(LOCATION_MZONE+LOCATION_SZONE,0)
+	e4:SetTarget(c13790666.indtg)
+	e4:SetValue(aux.tgoval)
+	c:RegisterEffect(e4)
 end
 function c13790666.splimit(e,se,sp,st)
 	return bit.band(st,SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
 end
 function c13790666.spfilter1(c,tp)
-	return c:IsSetCard(0xc7) and c:IsCanBeFusionMaterial()
+	return c:IsSetCard(0xc7) and c:IsType(TYPE_PENDULUM) and c:IsCanBeFusionMaterial()
 		and Duel.CheckReleaseGroup(tp,c13790666.spfilter2,1,c)
 end
 function c13790666.spfilter2(c)
@@ -69,4 +82,8 @@ function c13790666.spop2(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+0x1fe0000)
 		tc:RegisterEffect(e1)
 	end
+end
+
+function c13790666.indtg(e,c)
+	return c:IsType(TYPE_PENDULUM) and (c:GetLocation(LOCATION_MZONE) or (c:GetSequence()==6 or c:GetSequence()==7))
 end

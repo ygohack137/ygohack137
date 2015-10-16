@@ -33,7 +33,7 @@ function c13754009.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c13754009.atkval(e,c)
-	return c:GetRank()*200
+	return c:GetRank()*100
 end
 function c13754009.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()~=PHASE_DAMAGE or not Duel.IsDamageCalculated()

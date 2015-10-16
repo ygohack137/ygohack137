@@ -13,6 +13,7 @@ function c13790671.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetCountLimit(1,EFFECT_COUNT_CODE_SINGLE)
 	e2:SetRange(LOCATION_FZONE)
+	e2:SetCost(c13790671.cost)
 	e2:SetCondition(c13790671.condition)
 	e2:SetTarget(c13790671.target)
 	e2:SetOperation(c13790671.operation)
@@ -23,10 +24,15 @@ function c13790671.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetCountLimit(1,EFFECT_COUNT_CODE_SINGLE)
 	e3:SetRange(LOCATION_FZONE)
+	e3:SetCost(c13790671.cost)
 	e3:SetCondition(c13790671.condition)
 	e3:SetTarget(c13790671.target2)
 	e3:SetOperation(c13790671.operation2)
 	c:RegisterEffect(e3)
+end
+function c13790671.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDiscardable,tp,LOCATION_HAND,0,1,e:GetHandler()) end
+	Duel.DiscardHand(tp,Card.IsDiscardable,1,1,REASON_COST+REASON_DISCARD)
 end
 function c13790671.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0
