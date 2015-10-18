@@ -44,6 +44,6 @@ function c13754010.thop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
-function c13754010.splimit(e,c,sump,sumtype,sumpos,targetp,se)
-	return not se:GetHandler():IsSetCard(0x95)
+function c13754010.splimit(e,c,sumtp,sumtype,sumpos,targetp,se)
+	return c:IsLocation(LOCATION_EXTRA) and not se:GetHandler():IsSetCard(0x95)
 end

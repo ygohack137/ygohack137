@@ -10,7 +10,6 @@ function c13754005.initial_effect(c)
 	e1:SetTarget(c13754005.target)
 	e1:SetOperation(c13754005.activate)
 	c:RegisterEffect(e1)
-
 end
 function c13754005.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -18,7 +17,7 @@ function c13754005.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c13754005.filter1(c,e,tp)
 	local rk=c:GetRank()
-	return c:IsType(TYPE_XYZ) and c:IsSetCard(0xba)
+	return c:IsType(TYPE_XYZ) and c:IsSetCard(0xba) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 		and Duel.IsExistingMatchingCard(c13754005.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,rk+2,c:GetCode())
 end
 function c13754005.filter2(c,e,tp,mc,rk,code)

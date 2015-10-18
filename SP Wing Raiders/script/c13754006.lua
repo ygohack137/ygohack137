@@ -32,7 +32,7 @@ end
 function c13754006.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if e:GetHandler():GetSummonType()~=SUMMON_TYPE_XYZ then return end
 	if chkc then return chkc:IsOnField() and c13754006.desfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c13754006.desfilter,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil) 
+	if chk==0 then return Duel.IsExistingTarget(c13754006.desfilter,tp,0,LOCATION_ONFIELD,1,nil) 
 	and e:GetHandler():GetOverlayGroup():IsExists(Card.IsSetCard,1,nil,0xba) end
 	local g=Duel.GetMatchingGroup(c13754006.desfilter,tp,0,LOCATION_ONFIELD,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)

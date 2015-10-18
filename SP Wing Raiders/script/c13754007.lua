@@ -1,7 +1,7 @@
 --Supermassive Beastmech Magnaliger
 function c13754007.initial_effect(c)
 	--xyz summon
-	aux.AddXyzProcedure(c,nil,6,2)
+	aux.AddXyzProcedure(c,nil,5,2)
 	c:EnableReviveLimit()
 	--cannot attack
 	local e1=Effect.CreateEffect(c)
