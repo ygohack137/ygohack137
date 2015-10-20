@@ -1,4 +1,4 @@
---Chaos Field
+--Dinomist Plesios
 function c13790657.initial_effect(c)
 	--pendulum summon
 	aux.AddPendulumProcedure(c)
@@ -7,17 +7,12 @@ function c13790657.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	c:RegisterEffect(e1)
+	--disable and destroy
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(13790624,0))
-	e2:SetCategory(CATEGORY_DISABLE)
-	e2:SetType(EFFECT_TYPE_QUICK_O)
-	e2:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
-	e2:SetCode(EVENT_CHAINING)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetCode(EVENT_CHAIN_SOLVING)
 	e2:SetRange(LOCATION_PZONE)
-	e2:SetCountLimit(1)
-	e2:SetCondition(c13790657.negcon)
-	e2:SetTarget(c13790657.negtg)
-	e2:SetOperation(c13790657.negop)
+	e2:SetOperation(c13790657.disop)
 	c:RegisterEffect(e2)
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD)
@@ -34,22 +29,19 @@ function c13790657.initial_effect(c)
 	e4:SetValue(c13790657.atkval)
 	c:RegisterEffect(e4)
 end
-function c13790657.tfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x1e71) and c:IsControler(tp)
+function c13790657.cfilter(c,tp,e)
+	return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x1e71) and c:IsLocation(LOCATION_ONFIELD)
 end
-function c13790657.negcon(e,tp,eg,ep,ev,re,r,rp)
-	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return end
-	if not re:IsHasType(EFFECT_TYPE_ACTIVATE) then return false end
-	local g=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
-	return g and g:IsExists(c13790657.tfilter,1,nil)and g:GetFirst()~=e:GetHandler() and Duel.IsChainDisablable(ev)
-end
-function c13790657.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_DISABLE,eg,1,0,0)
-end
-function c13790657.negop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.NegateEffect(ev)
-	Duel.Destroy(e:GetHandler(),REASON_EFFECT)
+function c13790657.disop(e,tp,eg,ep,ev,re,r,rp)
+	if ep==tp then return end
+	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
+	local tg=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
+	if not tg or not tg:IsExists(c13790657.cfilter,1,e:GetHandler(),tp,e) or not Duel.IsChainDisablable(ev) then return false end
+	if e:GetHandler():GetFlagEffect(13790657)==0 and Duel.SelectYesNo(tp,aux.Stringid(13790624,3)) then
+		e:GetHandler():RegisterFlagEffect(13790657,RESET_EVENT+0x1ec0000,0,1)
+		Duel.NegateEffect(ev)
+		Duel.Destroy(e:GetHandler(),REASON_EFFECT)
+	else end
 end
 
 function c13790657.atkval(e,c)

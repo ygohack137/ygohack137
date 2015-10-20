@@ -25,5 +25,5 @@ function c13790667.adval(tp,c)
 	return Duel.GetMatchingGroupCount(c13790667.ctfilter,tp,0,LOCATION_MZONE,nil)*900
 end
 function c13790667.ctfilter(c)
-	return bit.band(c:GetSummonType(),SUMMON_TYPE_SPECIAL)==SUMMON_TYPE_SPECIAL and c:GetControler()~=e:GetHandler():GetControler()
+	return bit.band(c:GetSummonType(),SUMMON_TYPE_SPECIAL)==SUMMON_TYPE_SPECIAL
 end

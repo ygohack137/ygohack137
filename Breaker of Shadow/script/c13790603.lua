@@ -28,7 +28,6 @@ function c13790603.initial_effect(c)
 	c:RegisterEffect(e3)
 	--pos
 	local e4=Effect.CreateEffect(c)
-	e4:SetDescription(aux.Stringid(3117804,0))
 	e4:SetCategory(CATEGORY_POSITION)
 	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e4:SetCode(EVENT_SUMMON_SUCCESS)
@@ -40,7 +39,7 @@ function c13790603.initial_effect(c)
 	c:RegisterEffect(e5)
 	--normal summon with 1 tribute
 	local e6=Effect.CreateEffect(c)
-	e6:SetDescription(aux.Stringid(55690251,0))
+	e6:SetDescription(aux.Stringid(42880485,0))
 	e6:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e6:SetType(EFFECT_TYPE_SINGLE)
 	e6:SetCode(EFFECT_SUMMON_PROC)
@@ -68,9 +67,9 @@ function c13790603.filter(c)
 end
 function c13790603.lvtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c13790603.filter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c13790603.filter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(c13790603.filter,tp,LOCATION_MZONE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	Duel.SelectTarget(tp,c13790603.filter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
+	Duel.SelectTarget(tp,c13790603.filter,tp,LOCATION_MZONE,0,1,1,nil)
 end
 function c13790603.lvop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end

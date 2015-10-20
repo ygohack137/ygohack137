@@ -1,11 +1,10 @@
 --False Accusations
 function c13790679.initial_effect(c)
-	--destroy
+	--BLock
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetRange(LOCATION_MZONE)
+	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetHintTiming(TIMING_SPSUMMON)
 	e1:SetCondition(c13790679.condition)
 	e1:SetCountLimit(1,13790679)
 	e1:SetTarget(c13790679.target)
@@ -19,13 +18,12 @@ function c13790679.condition(e,tp,eg,ep,ev,re,r,rp)
 end
 function c13790679.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(1)
-	if chkc then return chkc:IsOnField() end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,tp,0,LOCATION_ONFIELD,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,Card.IsFaceup,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil)
+	if chkc then return chkc:IsOnField() and chkc~=e:GetHandler() end
+	if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler()) end
+	local g=Duel.SelectTarget(tp,Card.IsFaceup,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,e:GetHandler())
 	e:SetLabel(g:GetFirst():GetCode())
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end
+
 function c13790679.activate(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_FIELD)

@@ -38,7 +38,7 @@ function c13790660.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function c13790660.thfilter(c)
-	return c:IsSetCard(0xd0) and (not c:IsType(TYPE_MONSTER)) and and c:IsSSetable()
+	return c:IsSetCard(0xd0) and (not c:IsType(TYPE_MONSTER)) and c:IsSSetable()
 end
 function c13790660.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13790660.thfilter,tp,LOCATION_DECK,0,1,nil) end

@@ -35,15 +35,12 @@ function c13790666.initial_effect(c)
 	e4:SetValue(aux.tgoval)
 	c:RegisterEffect(e4)
 end
-function c13790666.splimit(e,se,sp,st)
-	return bit.band(st,SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
-end
 function c13790666.spfilter1(c,tp)
-	return c:IsSetCard(0xc7) and c:IsType(TYPE_PENDULUM) and c:IsCanBeFusionMaterial()
+	return c:IsSetCard(0xc7) and c:IsType(TYPE_PENDULUM)
 		and Duel.CheckReleaseGroup(tp,c13790666.spfilter2,1,c)
 end
 function c13790666.spfilter2(c)
-	return c:IsType(TYPE_PENDULUM) and c:IsCanBeFusionMaterial()
+	return c:IsType(TYPE_PENDULUM)
 end
 function c13790666.spcon(e,c)
 	if c==nil then return true end

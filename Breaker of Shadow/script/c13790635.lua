@@ -32,11 +32,12 @@ function c13790635.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
-function c13790635.filter(c,e,tp)
-	return c:IsSetCard(0x1e71) and c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsLocation(LOCATION_EXTRA) and c:IsFaceup() and c:IsControler(tp)
+function c13790635.filter(c,tp)
+	return c:IsSetCard(0x1e71) and c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsLocation(LOCATION_EXTRA) and
+	 c:IsFaceup() and c:IsControler(e:GetHandler():GetControler())
 end
 function c13790635.condition(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(c13790635.filter,1,nil,tp)
+	return eg:IsExists(c13790635.filter,1,nil,e)
 end
 function c13790635.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -44,6 +45,7 @@ function c13790635.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,eg,1,0,0)
 end
 function c13790635.acop(e,tp,eg,ep,ev,re,r,rp)
+	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local g=eg:Filter(c13790635.filter,nil,e,tp)
 	if g:GetCount()==0 then return end
 	Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_TODECK)

@@ -18,6 +18,7 @@ function c13790669.initial_effect(c)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCountLimit(1,137906692)
+	e2:SetCost(c13790669.descost)
 	e2:SetTarget(c13790669.target)
 	e2:SetOperation(c13790669.activate)
 	c:RegisterEffect(e2)
@@ -39,6 +40,10 @@ function c13790669.operation(e,tp,eg,ep,ev,re,r,rp)
 	c:RegisterEffect(e1)
 end
 
+function c13790669.descost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
+	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
+end
 function c13790669.filter(c)
 	local ctype=c:GetType()
 	return c:IsFaceup() and (c:IsType(TYPE_XYZ) or c:IsType(TYPE_FUSION) or c:IsType(TYPE_SYNCHRO)) and c:IsAbleToHand()

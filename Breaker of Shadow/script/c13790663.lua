@@ -37,27 +37,31 @@ function c13790663.value(e,c)
 	return Duel.GetMatchingGroup(Card.IsFaceup,e:GetHandlerPlayer(),LOCATION_MZONE,0,nil):GetClassCount(Card.GetAttribute)*200
 end
 
-function c13790663.cfilter(c,att)
-	return c:IsFaceup() and c:IsAttribute(att)
-end
 function c13790663.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end
 	if chk==0 then return Duel.IsExistingMatchingCard(c13790663.cfilter,tp,LOCATION_GRAVE,0,1,nil,ATTRIBUTE_WIND)
 		and Duel.IsExistingMatchingCard(c13790663.cfilter,tp,LOCATION_GRAVE,0,1,nil,ATTRIBUTE_WATER)
 		and Duel.IsExistingMatchingCard(c13790663.cfilter,tp,LOCATION_GRAVE,0,1,nil,ATTRIBUTE_FIRE)
 		and Duel.IsExistingMatchingCard(c13790663.cfilter,tp,LOCATION_GRAVE,0,1,nil,ATTRIBUTE_EARTH) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g1=Duel.SelectTarget(tp,c13790663.cfilter,tp,LOCATION_GRAVE,0,1,1,nil,ATTRIBUTE_WIND)
-	local g2=Duel.SelectTarget(tp,c13790663.cfilter,tp,LOCATION_GRAVE,0,1,1,nil,ATTRIBUTE_WATER)
-	local g3=Duel.SelectTarget(tp,c13790663.cfilter,tp,LOCATION_GRAVE,0,1,1,nil,ATTRIBUTE_FIRE)
-	local g4=Duel.SelectTarget(tp,c13790663.cfilter,tp,LOCATION_GRAVE,0,1,1,nil,ATTRIBUTE_EARTH)
-	g1:Merge(g2)
-	g1:Merge(g3)
-	g1:Merge(g4)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,2,0,0)
 end
 function c13790663.thop(e,tp,eg,ep,ev,re,r,rp)
-	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
-	local sg=g:Filter(Card.IsRelateToEffect,nil,e)
-	Duel.SendtoDeck(sg,nil,0,REASON_EFFECT)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
+	local g1=Duel.SelectMatchingCard(tp,c13790663.cfilter,tp,LOCATION_GRAVE,0,1,1,nil,ATTRIBUTE_WIND)
+	local g2=Duel.SelectMatchingCard(tp,Card.IsAttribute,tp,LOCATION_GRAVE,0,1,1,nil,ATTRIBUTE_WATER)
+	local g3=Duel.SelectMatchingCard(tp,Card.IsAttribute,tp,LOCATION_GRAVE,0,1,1,nil,ATTRIBUTE_FIRE)
+	local g4=Duel.SelectMatchingCard(tp,Card.IsAttribute,tp,LOCATION_GRAVE,0,1,1,nil,ATTRIBUTE_EARTH)
+	g1:Merge(g2)
+	g1:Merge(g3)
+	g1:Merge(g4)
+	if g1:GetCount()==4 then
+		Duel.ShuffleDeck(tp)
+		local tc=g:GetFirst()
+		while tc do
+			Duel.MoveSequence(tc,0)
+			tc=g:GetNext()
+		end
+		Duel.ConfirmDecktop(tp,4)
+		Duel.SortDecktop(tp,tp,4)
+	end
 end

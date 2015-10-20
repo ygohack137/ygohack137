@@ -26,7 +26,7 @@ function c13790634.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c13790634.filter(c,tp)
-	return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x1e71) and (c:IsReason(REASON_BATTLE) or c:IsReason(REASON_EFFECT))
+	return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x1e71) and (c:IsReason(REASON_BATTLE) or (c:IsReason(REASON_EFFECT) and c:GetReasonPlayer()~=tp))
 end
 function c13790634.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return eg:IsExists(c13790634.filter,1,e:GetHandler(),tp) and not e:GetHandler():IsStatus(STATUS_DESTROY_CONFIRMED) end
@@ -40,13 +40,11 @@ function c13790634.repop(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function c13790634.sdfilter(c)
-	return c:GetCode()==13790634 or c:IsFacedown()
+	return c:IsFacedown()
 end
 function c13790634.sdfilter2(c)
-	return c:IsFaceup() and c:IsSetCard(0x1e71)
+	return c:IsFaceup() and c:IsSetCard(0x1e71) and not	Duel.IsExistingMatchingCard(c13790634.sdfilter,tp,LOCATION_MZONE,0,1,nil)
 end
 function c13790634.spcon(e,tp)
-	return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and
-		Duel.IsExistingMatchingCard(c13790634.sdfilter2,tp,LOCATION_MZONE,0,1,nil)
-		and not	Duel.IsExistingMatchingCard(c13790634.sdfilter,tp,LOCATION_MZONE,0,1,nil)
+	return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and Duel.IsExistingMatchingCard(c13790634.sdfilter2,tp,LOCATION_MZONE,0,1,nil)
 end

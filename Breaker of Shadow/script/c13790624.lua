@@ -7,14 +7,11 @@ function c13790624.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	c:RegisterEffect(e1)
-	--negate
+	--disable and destroy
 	local e2=Effect.CreateEffect(c)
-	e2:SetCategory(CATEGORY_DISABLE)
-	e2:SetProperty(EFFECT_FLAG_NO_TURN_RESET)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_CHAIN_SOLVING)
 	e2:SetRange(LOCATION_PZONE)
-	e2:SetCondition(c13790624.discon)
 	e2:SetOperation(c13790624.disop)
 	c:RegisterEffect(e2)
 	local e3=Effect.CreateEffect(c)
@@ -28,16 +25,15 @@ function c13790624.initial_effect(c)
 	e3:SetOperation(c13790624.operation1)
 	c:RegisterEffect(e3)
 end
-function c13790624.cfilter(c,tp)
+function c13790624.cfilter(c,tp,e)
 	return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x1e71) and c:IsLocation(LOCATION_ONFIELD)
 end
-function c13790624.discon(e,tp,eg,ep,ev,re,r,rp)
-	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
-	local g=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
-	return g and g:IsExists(c13790624.cfilter,1,nil)
-end
 function c13790624.disop(e,tp,eg,ep,ev,re,r,rp)
-	if e:GetHandler():GetFlagEffect(13790624)~=0 and Duel.SelectYesNo(tp,aux.Stringid(13790624,0)) then
+	if ep==tp then return end
+	if not re:IsHasProperty(EFFECT_FLAG_CARD_TARGET) then return false end
+	local tg=Duel.GetChainInfo(ev,CHAININFO_TARGET_CARDS)
+	if not tg or not tg:IsExists(c13790624.cfilter,1,e:GetHandler(),tp,e) or not Duel.IsChainDisablable(ev) then return false end
+	if e:GetHandler():GetFlagEffect(13790624)==0 and Duel.SelectYesNo(tp,aux.Stringid(13790624,3)) then
 		e:GetHandler():RegisterFlagEffect(13790624,RESET_EVENT+0x1ec0000,0,1)
 		Duel.NegateEffect(ev)
 		Duel.Destroy(e:GetHandler(),REASON_EFFECT)
@@ -112,10 +108,11 @@ function c13790624.operation1(e,tp,eg,ep,ev,re,r,rp)
 		elseif opt==2 then
 			local g=g2:RandomSelect(tp,1)
 			Duel.SendtoDeck(g,nil,2,REASON_EFFECT)
-			local e1=Effect.CreateEffect(e:GetHandler())
+			local e1=Effect.CreateEffect(c)
 			e1:SetType(EFFECT_TYPE_SINGLE)
+			e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 			e1:SetCode(EFFECT_UPDATE_ATTACK)
-			e1:SetReset(RESET_EVENT+0xfe0000)
+			e1:SetReset(RESET_EVENT+0x1fe0000)
 			e1:SetValue(100)
 			c:RegisterEffect(e1)
 		end

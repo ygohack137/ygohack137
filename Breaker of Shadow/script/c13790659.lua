@@ -30,11 +30,11 @@ function c13790659.initial_effect(c)
 	
 end
 function c13790659.filter(c,tp)
-	return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x1e71) and (c:IsReason(REASON_BATTLE) or c:IsReason(REASON_EFFECT))
+	return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x1e71) and (c:IsReason(REASON_BATTLE) or (c:IsReason(REASON_EFFECT) and c:GetReasonPlayer()~=tp))
 end
 function c13790659.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return eg:IsExists(c13790659.filter,1,e:GetHandler(),tp) and not e:GetHandler():IsStatus(STATUS_DESTROY_CONFIRMED) end
-	return Duel.SelectYesNo(tp,aux.Stringid(13790634,0))
+	return Duel.SelectYesNo(tp,aux.Stringid(13790659,0))
 end
 function c13790659.repval(e,c)
 	return c13790659.filter(c,e:GetHandlerPlayer())

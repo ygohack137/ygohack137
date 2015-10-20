@@ -1,0 +1,57 @@
+--Dynamic Powerload
+function c13790677.initial_effect(c)
+	--Activate
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
+	e1:SetCode(EVENT_FREE_CHAIN)
+	c:RegisterEffect(e1)
+	--Atk
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_FIELD)
+	e2:SetCode(EFFECT_UPDATE_ATTACK)
+	e2:SetRange(LOCATION_SZONE)
+	e2:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
+	e2:SetTarget(c13790677.tg)
+	e2:SetValue(300)
+	c:RegisterEffect(e2)
+	--Def
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_FIELD)
+	e3:SetCode(EFFECT_UPDATE_DEFENCE)
+	e3:SetRange(LOCATION_SZONE)
+	e3:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
+	e3:SetTarget(c13790677.tg)
+	e3:SetValue(300)
+	c:RegisterEffect(e3)
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e4:SetCode(EVENT_ATTACK_ANNOUNCE)
+	e4:SetRange(LOCATION_PZONE)
+	e4:SetCondition(c13790677.actcon)
+	e4:SetOperation(c13790677.actop)
+	c:RegisterEffect(e4)
+	local e5=e4:Clone()
+	e5:SetCode(EVENT_BE_BATTLE_TARGET)
+	c:RegisterEffect(e5)
+end
+function c13790677.tg(e,c)
+	return c:IsSetCard(0x1e71)
+end
+function c13790677.actcon(e,tp,eg,ep,ev,re,r,rp)
+	local tc=Duel.GetAttacker()
+	if tc:IsControler(1-tp) then tc=Duel.GetAttackTarget() end
+	return tc and tc:IsControler(tp) and tc:IsSetCard(0x1e71)
+end
+function c13790677.actop(e,tp,eg,ep,ev,re,r,rp)
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e1:SetCode(EFFECT_CANNOT_ACTIVATE)
+	e1:SetTargetRange(0,1)
+	e1:SetValue(c13790677.aclimit)
+	e1:SetReset(RESET_PHASE+PHASE_DAMAGE)
+	Duel.RegisterEffect(e1,tp)
+end
+function c13790677.aclimit(e,re,tp)
+	return not re:GetHandler():IsImmuneToEffect(e)
+end
