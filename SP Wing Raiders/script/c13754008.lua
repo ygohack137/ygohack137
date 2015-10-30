@@ -40,7 +40,7 @@ function c13754008.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c13754008.con1(e)
-	return e:GetHandler():GetOverlayCount()>=3
+	return e:GetHandler():GetOverlayCount()>=2
 end
 function c13754008.tdcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end

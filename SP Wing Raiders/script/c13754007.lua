@@ -28,7 +28,6 @@ function c13754007.initial_effect(c)
 	e3:SetTarget(c13754007.mttg)
 	e3:SetOperation(c13754007.mtop)
 	c:RegisterEffect(e3)
-
 end
 function c13754007.atcon(e)
 	return e:GetHandler():GetOverlayCount()==0
@@ -37,15 +36,12 @@ function c13754007.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
-function c13754007.desfilter(c)
-	return c:IsDestructable()
-end
 function c13754007.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() and chkc:IsControler(1-tp) and c13754007.desfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c13754007.desfilter,tp,0,LOCATION_MZONE,1,nil) and
-	(tp==Duel.GetTurnPlayer() or e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,13754000))	end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsDestructable() end
+	if chk==0 then return Duel.IsExistingTarget(Card.IsDestructable,tp,LOCATION_MZONE,LOCATION_MZONE,1,e:GetHandler())
+	and (tp==Duel.GetTurnPlayer() or e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,13754000)) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,c13754007.desfilter,tp,0,LOCATION_MZONE,1,1,nil)
+	local g=Duel.SelectTarget(tp,Card.IsDestructable,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
 end
 function c13754007.desop(e,tp,eg,ep,ev,re,r,rp)
@@ -56,9 +52,9 @@ function c13754007.desop(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function c13754007.mtfilter(c)
-	return c:IsSetCard(0x1e72)
+	return c:IsSetCard(0x1e72) and c:IsType(TYPE_MONSTER)
 end
-function c13754007.mttg(e,tp,eg,ep,ev,re,r,rp,chk)
+function c13754007.mttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13754007.mtfilter,tp,LOCATION_MZONE+LOCATION_HAND,0,1,e:GetHandler()) end
 end
 function c13754007.mtop(e,tp,eg,ep,ev,re,r,rp)
@@ -66,7 +62,12 @@ function c13754007.mtop(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) or c:IsFacedown() then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
 	local g=Duel.SelectMatchingCard(tp,c13754007.mtfilter,tp,LOCATION_MZONE+LOCATION_HAND,0,1,1,c)
-	if g:GetCount()>0 then
-		Duel.Overlay(c,g)
+	local tc=g:GetFirst()
+	if c:IsRelateToEffect(e) and c:IsRelateToEffect(e) and not c:IsFacedown() then
+		local og=tc:GetOverlayGroup()
+		if og:GetCount()>0 then
+			Duel.SendtoGrave(og,REASON_RULE)
+		end
+		Duel.Overlay(c,Group.FromCards(tc))
 	end
 end
