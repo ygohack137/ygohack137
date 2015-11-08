@@ -41,7 +41,7 @@ function c13754000.spcon1(e,c)
 end
 
 function c13754000.filter(c)
-	return c:IsSetCard(0x1e72) and c:IsAbleToHand()
+	return c:IsSetCard(0xd5) and c:IsAbleToHand()
 end
 function c13754000.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c13754000.filter(chkc) end
@@ -65,7 +65,7 @@ function c13754000.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return not e:GetHandler():IsReason(REASON_RETURN)
 end
 function c13754000.spfilter(c,e,tp)
-	return c:IsSetCard(0x1e72) and not c:IsCode(13754000) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0xd5) and not c:IsCode(13754000) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c13754000.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c13754000.spfilter(chkc,e,tp) end

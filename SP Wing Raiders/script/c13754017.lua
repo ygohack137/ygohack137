@@ -26,7 +26,7 @@ function c13754017.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c13754017.filter(c)
-	return c:IsSetCard(0x1e72) and not c:IsCode(13754017) and c:IsAbleToHand()
+	return c:IsSetCard(0xd5) and not c:IsCode(13754017) and c:IsAbleToHand()
 end
 function c13754017.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13754017.filter,tp,LOCATION_DECK,0,1,nil) end
@@ -46,14 +46,14 @@ function c13754017.condition1(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function c13754017.filter1(c)
-	return c:IsSetCard(0x1e72) and c:IsAbleToDeck()
+	return c:IsSetCard(0xd5) and c:IsAbleToDeck()
 end
 function c13754017.target1(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c13754017.filter1(chkc) end
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1)
-		and Duel.IsExistingTarget(c13754017.filter1,tp,LOCATION_GRAVE,0,3,nil) end
+		and Duel.IsExistingTarget(c13754017.filter1,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectTarget(tp,c13754017.filter1,tp,LOCATION_GRAVE,0,3,3,nil)
+	local g=Duel.SelectTarget(tp,c13754017.filter1,tp,LOCATION_GRAVE,0,1,3,nil)
 	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,5,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end

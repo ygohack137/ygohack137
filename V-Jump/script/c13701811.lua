@@ -1,4 +1,5 @@
 --Card of Demise
+--Edited by: HelixReactor
 function c13701811.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
@@ -43,6 +44,18 @@ function c13701811.operation(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetOperation(c13701811.disop)
 		Duel.RegisterEffect(e1,p)
 	end
+	local e2=Effect.CreateEffect(e:GetHandler())
+	e2:SetType(EFFECT_TYPE_FIELD)
+	e2:SetCode(EFFECT_CHANGE_DAMAGE)
+	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e2:SetTargetRange(0,1)
+	e2:SetValue(0)
+	e2:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e2,tp)
+	local e3=e2:Clone()
+	e3:SetCode(EFFECT_NO_EFFECT_DAMAGE)
+	e3:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e3,tp)
 end
 function c13701811.disop(e,tp,eg,ep,ev,re,r,rp)
 	local g=Duel.GetFieldGroup(e:GetOwnerPlayer(),LOCATION_HAND,0)

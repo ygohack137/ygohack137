@@ -23,7 +23,7 @@ function c13754015.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c13754015.filter1(c)
-	return c:IsFaceup() and c:IsSetCard(0x1e72) and c:GetLevel()>0
+	return c:IsFaceup() and c:IsSetCard(0xd5) and c:GetLevel()>0
 end
 function c13754015.filter2(c)
 	return c:IsFaceup() and c:GetLevel()>0
@@ -58,7 +58,7 @@ function c13754015.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Release(e:GetHandler(),REASON_COST)
 end
 function c13754015.thfilter(c,e,tp)
-	return c:IsSetCard(0x1e72) and c:IsType(TYPE_MONSTER)
+	return c:IsSetCard(0xd5) and c:IsType(TYPE_MONSTER)
 end
 function c13754015.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13754015.thfilter,tp,LOCATION_DECK,0,3,nil,e,tp) end
