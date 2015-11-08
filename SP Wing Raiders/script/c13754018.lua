@@ -1,7 +1,7 @@
 --Super Quantum Mecha Beast Granpulse
 function c13754018.initial_effect(c)
 	--xyz summon
-	aux.AddXyzProcedure(c,nil,5,2)
+	aux.AddXyzProcedure(c,nil,3,2)
 	c:EnableReviveLimit()
 	--cannot attack
 	local e1=Effect.CreateEffect(c)
