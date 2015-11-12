@@ -94,29 +94,30 @@ function c13754016.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function c13754016.activate(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	local g=Duel.GetMatchingGroup(c13754016.spfilter,tp,LOCATION_EXTRA,0,nil,e,tp)
-	if g:GetCount()==0 then return end
-	local gs=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
-	if gs:GetCount()~=3 then return end
-	local tc1=gs:GetFirst()
-	local tc2=gs:GetNext()
-	local tc3=gs:GetNext()
-	if tc1:IsRelateToEffect(e) and tc2:IsRelateToEffect(e) and tc3:IsRelateToEffect(e) then
-			local og1=tc1:GetOverlayGroup()
-			local og2=tc2:GetOverlayGroup()
-			local og3=tc3:GetOverlayGroup()
-			og1:Merge(og2)
-			og1:Merge(og3)
+	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS):Filter(Card.IsRelateToEffect,nil,e)
+	if g:GetCount()~=3 then return end
+	local mgc=g:Filter(Card.IsLocation,nil,LOCATION_MZONE):GetCount()
+	local lc=0
+	if mgc>0 then lc=-1 end
+	if ft<lc then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local sg=g:Select(tp,1,1,nil)
+	local sg=Duel.SelectMatchingCard(tp,c13754016.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp,g)
 	local sc=sg:GetFirst()
-	if sc and Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP) then
-		if og1:GetCount()>0 then
-			Duel.Overlay(sc,og1)
+	local mg=Group.CreateGroup()
+	if sc then
+		local mc=g:GetFirst()
+		while mc do
+			local mg2=mc:GetOverlayGroup()
+			if mg2:GetCount()~=0 then
+				Duel.Overlay(sc,mg2)
+			end
+			Group.AddCard(mg,mc)
+			mc=g:GetNext()
 		end
-		Duel.Overlay(sc,gs)
+		sc:SetMaterial(mg)
+		Duel.Overlay(sc,mg)
+		Duel.SpecialSummon(sc,0,tp,tp,false,false,POS_FACEUP)
 		sc:CompleteProcedure()
 	end
-end
 end
