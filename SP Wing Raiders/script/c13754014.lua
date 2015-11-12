@@ -34,7 +34,7 @@ function c13754014.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Remove(e:GetHandler(),POS_FACEUP,REASON_COST)
 end
 function c13754014.filter(c)
-	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSetCard(0x1373)
+	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSetCard(0x1374)
 end
 function c13754014.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13754014.filter,tp,LOCATION_DECK,0,1,nil) end

@@ -17,12 +17,11 @@ end
 function c24425055.filter(c)
 	return c:IsType(TYPE_TRAP) and c:IsType(TYPE_CONTINUOUS) and c:IsSSetable()
 end
-function c24425055.settg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsRelateToEffect(e) and e:GetHandler():IsFaceup()
-		and not e:GetHandler():IsStatus(STATUS_CHAINING) and Duel.GetLocationCount(tp,LOCATION_SZONE)>0
+function c24425055.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_SZONE)>0
 		and Duel.IsExistingMatchingCard(c24425055.filter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,nil) end
 end
-function c24425055.setop(e,tp,eg,ep,ev,re,r,rp)
+function c24425055.operation(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_SZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SET)
 	local g=Duel.SelectMatchingCard(tp,c24425055.filter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,1,nil)
