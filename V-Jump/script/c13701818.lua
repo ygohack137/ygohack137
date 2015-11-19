@@ -39,6 +39,16 @@ function c13701818.initial_effect(c)
 	e5:SetTarget(c13701818.rettg)
 	e5:SetOperation(c13701818.retop)
 	c:RegisterEffect(e5)
+	local e6=Effect.CreateEffect(c)
+	e6:SetType(EFFECT_TYPE_SINGLE)
+	e6:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
+	e6:SetCondition(c13701818.dircon)
+	e6:SetReset(RESET_EVENT+0x1fe0000)
+	c:RegisterEffect(e6)
+	local e7=e6:Clone()
+	e7:SetCode(EFFECT_CANNOT_ATTACK)
+	e7:SetCondition(c13701818.atkcon)
+	c:RegisterEffect(e7)
 
 end
 function c13701818.splimit(e,se,sp,st)
@@ -79,4 +89,10 @@ function c13701818.retop(e,tp,eg,ep,ev,re,r,rp)
 	if bc:IsRelateToBattle() then
 		Duel.Remove(bc,POS_FACEUP,REASON_EFFECT)
 	end
+end
+function c13701818.dircon(e)
+	return e:GetHandler():GetAttackAnnouncedCount()>0
+end
+function c13701818.atkcon(e)
+	return e:GetHandler():IsDirectAttacked()
 end
