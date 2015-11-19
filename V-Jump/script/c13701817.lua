@@ -1,6 +1,6 @@
 --Blue-Eyes Alternative White Dragon
 function c13701817.initial_effect(c)
-	c:EnableUnsummonable()
+	c:EnableReviveLimit()
 	--special summon
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(13701817,0))

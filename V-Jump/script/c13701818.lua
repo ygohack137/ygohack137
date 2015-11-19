@@ -1,6 +1,7 @@
 --Blue-Eyes Twin Burst Dragon
 function c13701818.initial_effect(c)
 	c:EnableReviveLimit()
+	aux.AddFusionProcCodeRep(c,89631139,2,true,true)
 	--spsummon condition
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
