@@ -3,13 +3,12 @@ function c13701817.initial_effect(c)
 	c:EnableReviveLimit()
 	--special summon
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(13701817,0))
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e1:SetType(EFFECT_TYPE_IGNITION)
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_SPSUMMON_PROC)
+	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_HAND)
 	e1:SetCountLimit(1,13701817)
-	e1:SetCost(c13701817.spcost)
-	e1:SetTarget(c13701817.sptg)
+	e1:SetCondition(c13701817.spcon)
 	e1:SetOperation(c13701817.spop)
 	c:RegisterEffect(e1)
 	--code
@@ -36,24 +35,15 @@ end
 function c13701817.cffilter(c)
 	return c:IsCode(89631139) and not c:IsPublic()
 end
-function c13701817.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c13701817.cffilter,tp,LOCATION_HAND,0,1,nil) end
+function c13701817.spcon(e,c)
+	if c==nil then return true end
+	return Duel.IsExistingMatchingCard(Card.IsCode,e:GetHandler():GetControler(),LOCATION_HAND,0,1,nil,89631139)
+end
+function c13701817.spop(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
-	local g=Duel.SelectMatchingCard(tp,c13701817.cffilter,tp,LOCATION_HAND,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,Card.IsCode,tp,LOCATION_HAND,0,1,1,nil,89631139)
 	Duel.ConfirmCards(1-tp,g)
 	Duel.ShuffleHand(tp)
-end
-function c13701817.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
-end
-function c13701817.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local c=e:GetHandler()
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	if c:IsRelateToEffect(e) then
-		Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
-	end
 end
 
 function c13701817.cost(e,tp,eg,ep,ev,re,r,rp,chk)
