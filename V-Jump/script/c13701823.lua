@@ -85,11 +85,9 @@ function c13701823.damop(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	local ft2=Duel.GetLocationCount(tp,0,LOCATION_MZONE)
 	if (ft<=0 and ft2<=0) then return end
-	while Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0 do
+	while Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 do
 		local token=Duel.CreateToken(tp,13701824)
 		Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP_DEFENCE)
-	end
-	while Duel.GetLocationCount(tp,LOCATION_MZONE)>0 do
 		local token=Duel.CreateToken(tp,13701824)
 		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENCE)
 	end
