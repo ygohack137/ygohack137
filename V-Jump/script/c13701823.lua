@@ -46,7 +46,7 @@ function c13701823.initial_effect(c)
 end
 function c13701823.sprfilter1(c,tp)
 	local lv=c:GetLevel()
-	return lv>5 and c:IsFaceup() and c:IsType(TYPE_TUNER) and c:IsAbleToGraveAsCost()
+	return lv>4 and c:IsFaceup() and c:IsType(TYPE_TUNER) and c:IsAbleToGraveAsCost()
 		and Duel.IsExistingMatchingCard(c13701823.sprfilter2,tp,LOCATION_MZONE,0,1,nil,lv)
 end
 function c13701823.sprfilter2(c,lv)
@@ -76,7 +76,7 @@ function c13701823.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()==PHASE_STANDBY
 end
 function c13701823.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE,LOCATION_MZONE)>0  end
+	if chk==0 then return Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0  end
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE,LOCATION_MZONE)
 	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,ft,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,ft,0,0)
