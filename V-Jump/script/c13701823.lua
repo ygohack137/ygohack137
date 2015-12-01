@@ -19,7 +19,7 @@ function c13701823.initial_effect(c)
 	--battle indestructable
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
-	e3:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
+	e3:SetCode(EFFECT_INDESTRUCTABLE_EFFECT)
 	e3:SetValue(1)
 	c:RegisterEffect(e3)
 	--atk
@@ -37,7 +37,7 @@ function c13701823.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_QUICK_O)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCode(EVENT_FREE_CHAIN)
-	e3:SetHintTiming(TIMING_STANDBY_PHASE)
+	e3:SetHintTiming(TIMING_MAIN_END)
 	e3:SetCountLimit(1)
 	e3:SetCondition(c13701823.damcon)
 	e3:SetTarget(c13701823.damtg)
@@ -73,7 +73,7 @@ end
 
 
 function c13701823.damcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCurrentPhase()==PHASE_STANDBY
+	return Duel.GetCurrentPhase()==PHASE_MAIN1 or Duel.GetCurrentPhase()==PHASE_MAIN2
 end
 function c13701823.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0  end
