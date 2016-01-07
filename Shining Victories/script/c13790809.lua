@@ -54,14 +54,14 @@ function c13790809.desop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c13790809.cfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x1374)
+	return c:IsFaceup() and c:IsSetCard(0x1d1)
 end
 function c13790809.rmcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetMatchingGroupCount(c13790809.cfilter,tp,LOCATION_MZONE,0,nil)>0
 end
 function c13790809.rmtarget(e,c)
-	return not c:IsSetCard(0x1374)
+	return not c:IsSetCard(0x1d1)
 end
 function c13790809.splimit(e,c)
-	return c:IsLocation(LOCATION_EXTRA) and not c:IsSetCard(0x1374)
+	return c:IsLocation(LOCATION_EXTRA) and not c:IsSetCard(0x1d1)
 end

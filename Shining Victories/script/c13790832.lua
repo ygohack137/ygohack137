@@ -1,5 +1,5 @@
---Amorphage Cavum
-function c13790807.initial_effect(c)
+--Amorphous Nortes
+function c13790832.initial_effect(c)
 	--pendulum summon
 	aux.AddPendulumProcedure(c)
 	--Activate
@@ -14,27 +14,27 @@ function c13790807.initial_effect(c)
 	e2:SetCode(EVENT_PHASE+PHASE_STANDBY)
 	e2:SetRange(LOCATION_PZONE)
 	e2:SetCountLimit(1)
-	e2:SetCondition(c13790807.descon)
-	e2:SetOperation(c13790807.desop)
+	e2:SetCondition(c13790832.descon)
+	e2:SetOperation(c13790832.desop)
 	c:RegisterEffect(e2)
-	--Chain Limit
+	--Release Limit
 	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-	e3:SetCode(EVENT_CHAINING)
+	e3:SetType(EFFECT_TYPE_FIELD)
 	e3:SetRange(LOCATION_PZONE)
-	e3:SetCondition(c13790807.chaincon)
-	e3:SetOperation(c13790807.chainop)
+	e3:SetCondition(c13790832.rcon)
+	e3:SetCode(EFFECT_CANNOT_TO_HAND)
+	e3:SetTargetRange(LOCATION_DECK,LOCATION_DECK)
 	c:RegisterEffect(e3)
 	--SP Limit
 	local e4=Effect.CreateEffect(c)
 	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
 	e4:SetCode(EVENT_FLIP)
 	e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e4:SetOperation(c13790807.flagop)
+	e4:SetOperation(c13790832.flagop)
 	c:RegisterEffect(e4)
 	local e5=e4:Clone()
 	e5:SetCode(EVENT_SPSUMMON_SUCCESS)
-	e5:SetCondition(c13790807.flagcon)
+	e5:SetCondition(c13790832.flagcon)
 	c:RegisterEffect(e5)
 	local e6=Effect.CreateEffect(c)
 	e6:SetType(EFFECT_TYPE_FIELD)
@@ -42,14 +42,14 @@ function c13790807.initial_effect(c)
 	e6:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e6:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e6:SetTargetRange(1,1)
-	e6:SetCondition(c13790807.spcon)
-	e6:SetTarget(c13790807.splimit)
+	e6:SetCondition(c13790832.spcon)
+	e6:SetTarget(c13790832.splimit)
 	c:RegisterEffect(e6)
 end
-function c13790807.descon(e,tp,eg,ep,ev,re,r,rp)
+function c13790832.descon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
-function c13790807.desop(e,tp,eg,ep,ev,re,r,rp)
+function c13790832.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local con=Duel.CheckReleaseGroup(tp,nil,1,nil)
 	local op=false
@@ -61,24 +61,21 @@ function c13790807.desop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Destroy(c,REASON_EFFECT)
 	end
 end
-function c13790807.chainfilter(c)
+function c13790832.rfilter(c)
 	return c:IsFaceup() and c:IsType(TYPE_MONSTER) and c:IsSetCard(0x1d1)
 end
-function c13790807.chaincon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.IsExistingMatchingCard(c13790807.chainfilter,tp,LOCATION_ONFIELD,0,1,nil)
+function c13790832.rcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.IsExistingMatchingCard(c13790832.rfilter,tp,LOCATION_ONFIELD,0,1,nil)
 end
-function c13790807.chainop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.SetChainLimit(aux.FALSE)
-end
-function c13790807.flagcon(e,tp,eg,ep,ev,re,r,rp)
+function c13790832.flagcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetSummonType()==SUMMON_TYPE_PENDULUM
 end
-function c13790807.flagop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():RegisterFlagEffect(13790807,RESET_EVENT+0x1fe0000,0,1)
+function c13790832.flagop(e,tp,eg,ep,ev,re,r,rp)
+	e:GetHandler():RegisterFlagEffect(13790808,RESET_EVENT+0x1fe0000,0,1)
 end
-function c13790807.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetFlagEffect(13790807)~=0
+function c13790832.spcon(e,tp,eg,ep,ev,re,r,rp)
+	return e:GetHandler():GetFlagEffect(13790808)~=0
 end
-function c13790807.splimit(e,c,sump,sumtype,sumpos,targetp)
+function c13790832.splimit(e,c,sump,sumtype,sumpos,targetp)
 	return c:IsLocation(LOCATION_EXTRA) and not c:IsSetCard(0x1d1)
 end
