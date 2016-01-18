@@ -68,7 +68,8 @@ function c13718201.eqlimit(e,c)
 end
 
 function c13718201.eqcon1(e)
-	return e:GetHandler():GetEquipCount()>0
+	local eg=e:GetHandler():GetEquipGroup()
+	return not eg
 end
 function c13718201.efilter(e,te)
 	return te:IsActiveType(TYPE_MONSTER) and te:GetOwner()~=e:GetOwner()
