@@ -54,9 +54,13 @@ end
 function c13790912.filter3(c)
 	return c:IsFaceup() and not c:IsDisabled()
 end
+function c13790912.filter4(c,e,tp)
+	return c:IsCode(46986414) and c:IsFaceup()
+end
 function c13790912.target2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_SZONE) and chkc:IsControler(1-tp) and c13790912.filter3(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c13790912.filter3,tp,0,LOCATION_SZONE,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(c13790912.filter3,tp,0,LOCATION_SZONE,1,nil)
+	and Duel.IsExistingTarget(c13790912.filter4,tp,LOCATION_MZONE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 	Duel.SelectTarget(tp,c13790912.filter3,tp,0,LOCATION_SZONE,1,1,nil)
 end

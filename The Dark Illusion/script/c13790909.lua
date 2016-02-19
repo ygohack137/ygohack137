@@ -27,7 +27,7 @@ function c13790909.filter(c)
 	return c:IsAbleToHand() and c:IsType(TYPE_SPELL+TYPE_TRAP) --and c:IsSetCard(Dark Magician Related SetCode)
 	and (c:GetCode()==1784686 or c:GetCode()==99789342 or c:GetCode()==2314238 or c:GetCode()==69542930 or c:GetCode()==87210505 
 	or c:GetCode()==13604200 or c:GetCode()==63391643 or c:GetCode()==67227834 or c:GetCode()==75190122 or c:GetCode()==48680970
-	or c:GetCode()==68334074 or c:GetCode()==13790911 or c:GetCode()==13790912 or c:GetCode()==13790910 or 46986414)
+	or c:GetCode()==68334074 or c:GetCode()==13790911 or c:GetCode()==13790912 or c:GetCode()==13790910 or c:GetCode()==46986414)
 end
 function c13790909.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c13790909.filter,tp,LOCATION_DECK,0,1,nil) end

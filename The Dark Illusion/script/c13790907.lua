@@ -8,7 +8,7 @@ function c13790907.initial_effect(c)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetValue(46986414)
 	c:RegisterEffect(e1)
-	
+	local e2=Effect.CreateEffect(c)
 	e2:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_NO_TURN_RESET)
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e2:SetType(EFFECT_TYPE_TRIGGER_O+EFFECT_TYPE_FIELD)
