@@ -68,32 +68,32 @@ function c13790914.tknop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
-
-function c13790914.spfilter(c,e,tp)
-	return c:IsType(TYPE_SYNCHRO) and c:IsSetCard(0x33) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
-		and c:IsCanBeEffectTarget(e)
+function c13790914.cfilter(c,e,tp,tc)
+	return c:IsFaceup() and not c:IsType(TYPE_TUNER) and c:IsAbleToRemoveAsCost()
+		and Duel.IsExistingMatchingCard(c13790914.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp,c:GetLevel()+tc:GetLevel())
 end
-function c13790914.cfilter(c,lv)
-	return c:IsFaceup() and c:IsAbleToRemoveAsCost() and c:GetOriginalLevel()>=lv
+function c13790914.spfilter(c,e,tp,lv)
+	return c:IsType(TYPE_SYNCHRO) and c:IsSetCard(0x33) and c:GetLevel()==lv and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c13790914.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	local sg=Duel.GetMatchingGroup(c13790914.spfilter,tp,LOCATION_GRAVE,0,nil,e,tp)
-	if chkc then return sg:IsContains(chkc) and chkc:IsLevelBelow(e:GetLabel()) end
-	if sg:GetCount()==0 then return false end
-	local mg,mlv=sg:GetMinGroup(Card.GetLevel)
-	local elv=e:GetHandler():GetOriginalLevel()
-	local lv=(elv>=mlv) and 1 or (mlv-elv)
-	if chk==0 then return e:GetHandler():IsAbleToRemoveAsCost()
-		and Duel.IsExistingMatchingCard(c13790914.cfilter,tp,LOCATION_MZONE,0,1,e:GetHandler(),lv) end
+function c13790914.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	e:SetLabel(1)
+	local tc=e:GetHandler()
+	if chk==0 then return Duel.IsExistingMatchingCard(c13790914.cfilter,tp,LOCATION_MZONE,0,1,nil,e,tp,tc) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c13790914.cfilter,tp,LOCATION_MZONE,0,1,1,e:GetHandler(),lv)
-	local slv=elv+g:GetFirst():GetLevel()
-	g:AddCard(e:GetHandler())
+	local g=Duel.SelectMatchingCard(tp,c13790914.cfilter,tp,LOCATION_MZONE,0,1,1,nil,e,tp,tc)
+	e:SetLabel(tc:GetLevel()+g:GetFirst():GetLevel())
+	g:AddCard(tc)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
+end
+function c13790914.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then
+		if e:GetLabel()~=1 then return false end
+		e:SetLabel(0)
+		return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2
+	end
+	local lv=e:GetLabel()
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	e:SetLabel(slv)
-	local g=sg:FilterSelect(tp,Card.IsLevelBelow,1,1,nil,slv)
-	Duel.SetTargetCard(g)
+	local g=Duel.SelectTarget(tp,c13790914.spfilter,tp,LOCATION_GRAVE,0,1,1,nil,e,tp,lv)
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g,1,0,0)
 end
 function c13790914.operation(e,tp,eg,ep,ev,re,r,rp)
