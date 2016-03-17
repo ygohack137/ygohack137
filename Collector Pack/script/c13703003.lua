@@ -17,6 +17,12 @@ function c13703003.initial_effect(c)
 	e2:SetTarget(c13703003.target)
 	e2:SetOperation(c13703003.operation)
 	c:RegisterEffect(e2)
+	--extra attack
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_EXTRA_ATTACK)
+	e3:SetValue(1)
+	c:RegisterEffect(e3)
 end
 function c13703003.ttcon(e,c)
 	if c==nil then return true end

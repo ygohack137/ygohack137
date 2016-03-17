@@ -83,6 +83,7 @@ function c13790928.activate(e,tp,eg,ep,ev,re,r,rp)
 		e3:SetRange(LOCATION_PZONE)
 		e3:SetCode(EVENT_DAMAGE_STEP_END)
 		e3:SetOperation(c13790928.atkop)
+		e3:SetReset(RESET_PHASE+PHASE_DAMAGE)
 		e3:SetLabel(a:GetAttack())
 		c:RegisterEffect(e3)
 	end
