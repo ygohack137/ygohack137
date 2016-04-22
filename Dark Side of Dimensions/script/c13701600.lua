@@ -61,7 +61,6 @@ function c13701600.spop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=g:GetFirst()
 	if tc then
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
-		
 		local a=Duel.GetAttacker()
 		if a:IsAttackable() and not a:IsImmuneToEffect(e) then
 			local e1=Effect.CreateEffect(e:GetHandler())
@@ -71,7 +70,6 @@ function c13701600.spop(e,tp,eg,ep,ev,re,r,rp)
 			e1:SetValue(a:GetBaseAttack()/2)
 			Duel.GetAttacker():RegisterEffect(e1)
 		end
-		
 		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_DISABLE)
