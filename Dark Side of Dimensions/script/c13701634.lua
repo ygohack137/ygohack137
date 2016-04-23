@@ -20,8 +20,10 @@ function c13701634.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e3:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e3:SetRange(LOCATION_GRAVE)
 	e3:SetCode(EVENT_LEAVE_FIELD)
+	e3:SetCost(c13701634.descost)
 	e3:SetCondition(c13701634.condition)
 	e3:SetTarget(c13701634.target)
 	e3:SetOperation(c13701634.operation)
@@ -101,6 +103,10 @@ function c13701634.factivate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 
+function c13701634.descost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsAbleToRemoveAsCost() end
+	Duel.Remove(e:GetHandler(),POS_FACEUP,REASON_COST)
+end
 function c13701634.cfilter(c,tp)
 	return c:IsReason(REASON_BATTLE) and c:IsSetCard(0xe3) and c:IsType(TYPE_MONSTER) and c:GetPreviousControler()==tp
 end

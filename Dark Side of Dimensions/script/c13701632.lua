@@ -28,8 +28,8 @@ function c13701632.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c13701632.tgfilter(c,tp)
-	return (not c:IsCode(13701611)) and c:IsFaceup() and c:IsSetCard(0xe3)
-	 and Duel.IsExistingMatchingCard(c13701632.cfilter,tp,LOCATION_DECK+LOCATION_HAND,0,1,nil,c)
+	return c:IsFaceup() and c:IsSetCard(0xe3) and (not c:IsCode(13701611)) 
+	and Duel.IsExistingMatchingCard(c13701632.cfilter,tp,LOCATION_DECK+LOCATION_HAND,0,1,nil)
 end
 function c13701632.cfilter(c,tc)
 	return c:IsCode(13701611) and c:IsAbleToGrave()

@@ -34,7 +34,7 @@ function c22804410.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c22804410.cfilter(c,tp)
-	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousPosition(POS_FACEUP) and c:IsPreviousControler(tp)
+	return c:IsPreviousLocation(LOCATION_MZONE) and c:IsPreviousPosition(POS_FACEUP) and c:GetPreviousControler()==tp
 		and ((c:IsReason(REASON_EFFECT) and rp~=tp) or c:IsReason(REASON_BATTLE)) and c:IsSetCard(0xdd) 
 end
 function c22804410.spcon(e,tp,eg,ep,ev,re,r,rp)
