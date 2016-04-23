@@ -16,7 +16,7 @@ function c13722003.initial_effect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_DESTROYED)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
-	e3:SetCondition(c13722003.spcon)
+	e2:SetCondition(c13722003.spcon)
 	e2:SetTarget(c13722003.sptg)
 	e2:SetOperation(c13722003.spop)
 	c:RegisterEffect(e2)
@@ -27,8 +27,7 @@ function c13722003.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e3:SetRange(LOCATION_MZONE)
-	e3:SetCountLimit(1)
-	e3:SetCondition(c13722003.descost)
+	e3:SetCost(c13722003.descost)
 	e3:SetTarget(c13722003.destg)
 	e3:SetOperation(c13722003.desop)
 	c:RegisterEffect(e3)
@@ -47,30 +46,6 @@ function c13722003.sspop(e,tp,eg,ep,ev,re,r,rp,c)
 	g1:Merge(g2)
 	g1:Merge(g3)
 	Duel.Remove(g1,POS_FACEUP,REASON_COST)
-end
-
-function c13722003.rfilter(c)
-	return c:IsAbleToRemoveAsCost() and (c:IsCode(13722000) or c:IsCode(13722001) or c:IsCode(13722002))
-	 or (c:IsCode(99785935) or c:IsCode(39256679) or c:IsCode(11549357))
-end
-function c13722003.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c13722003.rfilter,tp,LOCATION_GRAVE,0,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c13722003.rfilter,tp,LOCATION_GRAVE,0,1,1,nil)
-	Duel.Remove(g,POS_FACEUP,REASON_COST)
-end
-function c13722003.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() and chkc:IsDestructable() end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsDestructable,tp,0,LOCATION_ONFIELD,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectTarget(tp,Card.IsDestructable,tp,0,LOCATION_ONFIELD,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
-end
-function c13722003.desop(e,tp,eg,ep,ev,re,r,rp)
-	local tc=Duel.GetFirstTarget()
-	if tc and tc:IsRelateToEffect(e) then
-		Duel.Destroy(tc,REASON_EFFECT)
-	end
 end
 
 function c13722003.spcon(e,tp,eg,ep,ev,re,r,rp)
@@ -101,4 +76,28 @@ function c13722003.spop(e,tp,eg,ep,ev,re,r,rp)
 	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	if g:GetCount()~=3 or ft<3 then return end
 	Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
+end
+
+function c13722003.rfilter(c)
+	return c:IsAbleToRemoveAsCost() and (c:IsCode(13722000) or c:IsCode(13722001) or c:IsCode(13722002))
+	 or (c:IsCode(99785935) or c:IsCode(39256679) or c:IsCode(11549357))
+end
+function c13722003.descost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingMatchingCard(c13722003.rfilter,tp,LOCATION_GRAVE,0,1,nil) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
+	local g=Duel.SelectMatchingCard(tp,c13722003.rfilter,tp,LOCATION_GRAVE,0,1,1,nil)
+	Duel.Remove(g,POS_FACEUP,REASON_COST)
+end
+function c13722003.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+	if chkc then return chkc:IsOnField() and chkc:IsDestructable() end
+	if chk==0 then return Duel.IsExistingTarget(Card.IsDestructable,tp,0,LOCATION_ONFIELD,1,nil) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+	local g=Duel.SelectTarget(tp,Card.IsDestructable,tp,0,LOCATION_ONFIELD,1,1,nil)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
+end
+function c13722003.desop(e,tp,eg,ep,ev,re,r,rp)
+	local tc=Duel.GetFirstTarget()
+	if tc and tc:IsRelateToEffect(e) then
+		Duel.Destroy(tc,REASON_EFFECT)
+	end
 end

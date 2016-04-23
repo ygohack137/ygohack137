@@ -102,7 +102,7 @@ function c13711000.condition(e,tp,eg,ep,ev,re,r,rp)
 	return bit.band(e:GetHandler():GetPreviousLocation(),LOCATION_ONFIELD)>0
 end
 function c13711000.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c46181000.filter,tp,LOCATION_HAND,0,1,e:GetHandler(),e,tp) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c13711000.filter,tp,LOCATION_HAND,0,1,e:GetHandler(),e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_GRAVE)
 end
 function c13711000.filter2(c)

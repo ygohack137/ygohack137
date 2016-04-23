@@ -9,6 +9,14 @@ function c13701651.initial_effect(c)
 	e1:SetTarget(c13701651.target)
 	e1:SetOperation(c13701651.activate)
 	c:RegisterEffect(e1)
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(99861526,0))
+	e2:SetCategory(CATEGORY_POSITION)
+	e2:SetType(EFFECT_TYPE_TRIGGER_F+EFFECT_TYPE_SINGLE)
+	e2:SetCode(EVENT_DAMAGE_STEP_END)
+	e2:SetCondition(c13701651.poscon)
+	e2:SetOperation(c13701651.posop)
+	c:RegisterEffect(e2)
 end
 function c13701651.filter1(c)
 	return c:IsFaceup() and c:IsLevelAbove(4)
@@ -29,7 +37,7 @@ function c13701651.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
 		or not Duel.IsPlayerCanSpecialSummonMonster(tp,13701651,0,0x21,1000,1000,4,RACE_ROCK,ATTRIBUTE_EARTH) then return end
 	c:AddTrapMonsterAttribute(TYPE_EFFECT,ATTRIBUTE_EARTH,RACE_ROCK,4,1000,1000)
-	Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP_ATTACK)
+	Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP)
 	c:TrapMonsterBlock()
 	
 	local c=e:GetHandler()
@@ -71,15 +79,6 @@ function c13701651.activate(e,tp,eg,ep,ev,re,r,rp)
 			end
 		else Duel.SendtoGrave(tc,REASON_EFFECT) end
 	end
-	--pos
-	local e3=Effect.CreateEffect(c)
-	e3:SetDescription(aux.Stringid(99861526,0))
-	e3:SetCategory(CATEGORY_POSITION)
-	e3:SetType(EFFECT_TYPE_TRIGGER_F+EFFECT_TYPE_SINGLE)
-	e3:SetCode(EVENT_DAMAGE_STEP_END)
-	e3:SetCondition(c13701651.poscon)
-	e3:SetOperation(c13701651.posop)
-	tc:RegisterEffect(e3)
 end
 function c13701651.eqlimit(e,c)
 	return e:GetOwner()==c
